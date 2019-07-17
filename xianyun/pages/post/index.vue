@@ -2,7 +2,7 @@
     <div class="post">
         <el-row type="flex" class="post_content" justify="space-between" align="middle">
         <el-col class="menus-wrapper" :span="7">
-            
+            这是左侧导航菜单
         </el-col>
         <el-col class="post-wrapper" :span="17"></el-col>
         </el-row>
