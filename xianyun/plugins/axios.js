@@ -7,5 +7,10 @@ export default ({$axios}) =>{
         if(statusCode === 400){
             Message.error(message);
         }
+        // 如果返回的是401 就跳转到登录
+        if( statusCode === 401 || statusCode === 403 ){
+            // 跳转到登录页
+            redirect("/user/login");
+        }
     })
 }
