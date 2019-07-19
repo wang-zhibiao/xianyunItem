@@ -5,8 +5,13 @@
     <header>
       <!-- 搜索框 -->
       <div class="search">
-        <el-input placeholder="请输入想去的地方，比如'广州'" v-model="searchText" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input
+          @keyup.enter.native="searchByCity"
+          placeholder="请输入想去的地方，比如'广州'"
+          v-model="searchText"
+          class="input-with-select"
+        >
+          <el-button @click="searchByCity" slot="append" icon="el-icon-search"></el-button>
         </el-input>
       </div>
       <!-- 推荐 -->
@@ -14,14 +19,16 @@
         <el-col>推荐:</el-col>
         <el-col v-for="(item,index) in recommendList" :key="index">
           <!-- 后期根据城市名展示数据 -->
-          <a href="javascript:void(0)">{{item}}</a>
+          <a href="javascript:void(0)" @click="getDataByCity(item)">{{item}}</a>
         </el-col>
       </el-row>
       <el-row class="strategy" type="flex" justify="space-between">
         <el-col class="strategy-text" :span="4">推荐攻略</el-col>
         <el-col style="flex:1"></el-col>
         <el-col class="writeBtn" :span="4">
-          <el-button type="primary" icon="el-icon-edit">写游记</el-button>
+          <el-button type="primary" icon="el-icon-edit">
+            <nuxt-link to="/post/create">写游记</nuxt-link>
+          </el-button>
         </el-col>
       </el-row>
     </header>
@@ -105,6 +112,12 @@
 </template>
 <script>
 export default {
+  props: {
+    asideCity: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       searchText: "",
@@ -117,43 +130,86 @@ export default {
       // 数据总数
       total: 1,
       // 从第几条数据开始获取
-      _start:3,
+      start: 3,
       // 一共获取多少条
-      limit:3
+      limit: 3,
+      // 定义一个接收城市的变量
+      city: ""
     };
   },
   mounted() {
     // 默认从第0条数据开始拿，拿3条数据
-    this.init(0,3)
+    this.init(0, 3);
   },
+  watch: {
+    asideCity(city, old) {
+      // city是路由改变后带的城市名，然后调用封装好的方法
+      this.initByCity(city);
+    }
+  },
+
   methods: {
+    // 搜索框帅选事件
+    searchByCity() {
+      if (!this.searchText.trim()) {
+        this.$message.warning("请输入成名后再搜索!");
+        return;
+      }
+      this.init(this.start, this.limit, this.searchText);
+    },
+
+    // 根据城市名请求数据
+    getDataByCity(city) {
+      this.initByCity(city);
+    },
+
+    // 封装通过城市名请求数据
+    initByCity(city) {
+      this.city = city;
+      this.currentPage = 1;
+      this.start = (this.currentPage - 1) * this.limit;
+      this.init(this.start, this.limit, this.city);
+    },
+
     // 封装请求数据方法
-    init(_start,_limit) {
+    init(_start, _limit, city) {
       this.$axios({
         // 本地数据库只有4条数据，所以请求贤哥的服务器
         baseURL: "http://157.122.54.189:9095",
         url: "/posts",
         params: {
           _start,
-          _limit
+          _limit,
+          city
         }
       }).then(res => {
+        if (res.data.data.length == 0) {
+          this.$message.warning("改城市还没开通攻略，请确认输入的城市名无误！");
+        }
         this.articleData = res.data.data;
         this.total = res.data.total;
       });
     },
+    // 封装分页器改变展示数据条数或者是改变页码数后操作
+    changSize() {
+      this.start = (this.currentPage - 1) * this.limit;
+      // 判断
+      if (!this.city) {
+        this.init(this.start, this.limit);
+      } else {
+        this.init(this.start, this.limit, this.city);
+      }
+    },
     // 改变页面展示数据的条数
     handleSizeChange(val) {
       this.currentPage = 1;
-      this.limit = val
-      this._start = (this.currentPage-1) * this.limit
-      this.init(this._start,this.limit)
+      this.limit = val;
+      this.changSize()
     },
     // 改变页码数
     handleCurrentChange(val) {
-      this.currentPage = val
-      this._start = (this.currentPage-1) * this.limit
-      this.init(this._start,this.limit)
+      this.currentPage = val;
+      this.changSize()
     }
   }
 };

@@ -1,7 +1,6 @@
 <!-- 左侧导航菜单 -->
 <template>
     <div>
-        
     </div>
 </template>
 <script>
