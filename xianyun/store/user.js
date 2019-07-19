@@ -1,7 +1,9 @@
 //数据存储
 export const state =() => ({
     token:'',
-    userInfo:{}
+    userInfo:{
+        user:{}
+    }
 })
 //数据处理函数
 export const mutations = {
