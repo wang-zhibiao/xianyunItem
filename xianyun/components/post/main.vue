@@ -34,14 +34,14 @@
         <!-- 图片 -->
         <el-row class="images" type="flex">
           <el-col :span="24/item.images.length" v-for="(image,number) in item.images" :key="number">
-            <img :src="image" alt/>
+            <img :src="image" alt />
           </el-col>
-          
         </el-row>
         <!-- 最底下的小信息 -->
         <el-row class="info" type="flex" justify="space-between">
           <el-col :span="8">
-            <i class="el-icon-location-outline"></i>{{item.cityName}}&nbsp;&nbsp;by
+            <i class="el-icon-location-outline"></i>
+            {{item.cityName}}&nbsp;&nbsp;by
             <span>
               <img
                 class="avatar"
@@ -50,17 +50,18 @@
               />
               {{item.account.nickname}}
             </span>
-            <i class="el-icon-view"></i> {{item.watch}}
+            <i class="el-icon-view"></i>
+            {{item.watch}}
           </el-col>
-          <el-col :span="13"></el-col>
-          <el-col :span="3" class="like">{{item.like}}赞</el-col>
+          <el-col :span="14"></el-col>
+          <el-col :span="2" class="like">{{item.like}}赞</el-col>
         </el-row>
       </nuxt-link>
       <!-- 1张图片 -->
       <nuxt-link to class="one" v-else>
         <el-row type="flex">
           <el-col :span="8">
-            <img :src="item.images" alt/>
+            <img :src="item.images" alt />
           </el-col>
           <el-col :span="1"></el-col>
           <el-col :span="15">
@@ -69,7 +70,8 @@
             <!-- 最底下的小信息 -->
             <el-row class="info" type="flex" justify="space-between">
               <el-col :span="14">
-                <i class="el-icon-location-outline"></i>{{item.cityName}}&nbsp;&nbsp;by
+                <i class="el-icon-location-outline"></i>
+                {{item.cityName}}&nbsp;&nbsp;by
                 <span>
                   <img
                     class="avatar"
@@ -78,7 +80,8 @@
                   />
                   {{item.account.nickname}}
                 </span>
-                <i class="el-icon-view"></i> {{item.watch}}
+                <i class="el-icon-view"></i>
+                {{item.watch}}
               </el-col>
               <el-col :span="7"></el-col>
               <el-col :span="3" class="like">{{item.like}}赞</el-col>
@@ -87,6 +90,17 @@
         </el-row>
       </nuxt-link>
     </main>
+    <!-- 分页 -->
+    <el-pagination
+      class="pagination"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[3, 5, 10, 15]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
   </div>
 </template>
 <script>
@@ -97,22 +111,50 @@ export default {
       // 推荐文字数组
       recommendList: ["广州", "上海", "北京"],
       // 文章列表数据
-      articleData:[]
+      articleData: [],
+      // 当前页码数
+      currentPage: 1,
+      // 数据总数
+      total: 1,
+      // 从第几条数据开始获取
+      _start:3,
+      // 一共获取多少条
+      limit:3
     };
   },
   mounted() {
-    this.$axios({
-      // 本地数据库只有4条数据，所以请求贤哥的服务器
-      baseURL:'http://157.122.54.189:9095',
-      url: "/posts",
-      // params:{
-      //   _start:1,
-      //   _limit:100
-      // }
-    }).then(res => {
-      console.log(res.data.data);
-      this.articleData = res.data.data
-    });
+    // 默认从第0条数据开始拿，拿3条数据
+    this.init(0,3)
+  },
+  methods: {
+    // 封装请求数据方法
+    init(_start,_limit) {
+      this.$axios({
+        // 本地数据库只有4条数据，所以请求贤哥的服务器
+        baseURL: "http://157.122.54.189:9095",
+        url: "/posts",
+        params: {
+          _start,
+          _limit
+        }
+      }).then(res => {
+        this.articleData = res.data.data;
+        this.total = res.data.total;
+      });
+    },
+    // 改变页面展示数据的条数
+    handleSizeChange(val) {
+      this.currentPage = 1;
+      this.limit = val
+      this._start = (this.currentPage-1) * this.limit
+      this.init(this._start,this.limit)
+    },
+    // 改变页码数
+    handleCurrentChange(val) {
+      this.currentPage = val
+      this._start = (this.currentPage-1) * this.limit
+      this.init(this._start,this.limit)
+    }
   }
 };
 </script>
@@ -228,5 +270,9 @@ main {
   .one {
     margin-top: 15px;
   }
+}
+
+.pagination {
+  margin: 15px 0;
 }
 </style>

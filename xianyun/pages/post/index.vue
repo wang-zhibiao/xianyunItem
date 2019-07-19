@@ -26,7 +26,7 @@ export default {
 .post_content {
   width: 1000px;
   margin: 0 auto;
-  height: 900px;
+  // height: 900px;
   // background: #000;
   .menus-wrapper {
     width: 260px;
@@ -35,7 +35,7 @@ export default {
   }
   .post-wrapper {
     width: 700px;
-    height: 900px;
+    // height: 900px;
     // background: red;
   }
 }
