@@ -17,9 +17,9 @@
         <div class="rows" v-show="isShow">
           <div v-for="(item,index) in hotList" :key="index">
             <nuxt-link :to="`/post?city=${item.city}`">
-              <span class="num">{{index + 1}}</span>&nbsp;&nbsp;
-              <span class="oneCity">{{item.city}}</span>&nbsp;&nbsp;
-              <span class="twoCity">{{item.desc}}</span>
+            <span class="num">{{index + 1}}</span>&nbsp;&nbsp;
+            <span class="oneCity">{{item.city}}</span>&nbsp;&nbsp;
+            <span class="twoCity">{{item.desc}}</span>
             </nuxt-link>
           </div>
         </div>
@@ -93,6 +93,9 @@ export default {
 }
 .navs {
   margin: 15px 0;
+  position: relative;
+  top: 0;
+  left: 0;
 
   .hotCity {
     border: 1px solid #ccc;
@@ -121,6 +124,7 @@ export default {
     width: 350px;
     height: 38px;
     line-height: 38px;
+    z-index: 9;
     div {
       border-right: 1px solid #ccc;
     }
