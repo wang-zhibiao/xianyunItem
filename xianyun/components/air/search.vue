@@ -186,7 +186,7 @@ export default {
             query:this.form
           })
           // 提交表单时存储数据到本地
-         const arr = JSON.parse(localStorage.getItem('air') || `[]`)
+         let arr = JSON.parse(localStorage.getItem('air') || `[]`)
          arr.unshift(this.form)
          console.log(arr);
          localStorage.setItem('air',JSON.stringify(arr));

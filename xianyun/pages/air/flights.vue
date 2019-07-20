@@ -69,6 +69,12 @@ export default {
       },
     };
   },
+  // 监听路由的变化
+  watch: {
+    $route(){
+      this.getListData()
+    }
+  },
   //组件注册
   components: {
     FlightsListHead,
