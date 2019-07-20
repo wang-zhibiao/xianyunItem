@@ -105,6 +105,7 @@ export default {
     line-height: 40px;
     span {
       margin-left: 15px;
+      font-size: 14px;
     }
     i {
       position: absolute;
@@ -124,6 +125,7 @@ export default {
     width: 350px;
     height: 38px;
     line-height: 38px;
+    background-color: #fff;
     z-index: 9;
     div {
       border-right: 1px solid #ccc;
