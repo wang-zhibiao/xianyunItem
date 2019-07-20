@@ -15,7 +15,7 @@
         </el-col>
 
         <div class="rows" v-show="isShow">
-          <div v-for="(item,index) in hotList" :key="index">
+          <div style="background-color: #fff;" v-for="(item,index) in hotList" :key="index">
             <nuxt-link :to="`/post?city=${item.city}`">
             <span class="num">{{index + 1}}</span>&nbsp;&nbsp;
             <span class="oneCity">{{item.city}}</span>&nbsp;&nbsp;
@@ -98,12 +98,15 @@ export default {
   left: 0;
 
   .hotCity {
-    border: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
     border-collapse: collapse;
     width: 250px;
     height: 40px;
     line-height: 40px;
     span {
+      
       margin-left: 15px;
       font-size: 14px;
     }
@@ -125,7 +128,6 @@ export default {
     width: 350px;
     height: 38px;
     line-height: 38px;
-    background-color: #fff;
     z-index: 9;
     div {
       border-right: 1px solid #ccc;
