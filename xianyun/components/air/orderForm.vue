@@ -238,8 +238,10 @@ export default {
       });
         // console.log(res);
         setTimeout(()=>{
-            this.$message.success(res.data.message);
-        })
+          const {message,data} = res.data
+            this.$message.success(message);
+            this.$router.push('/air/pay?id='+data.id)
+        },3000)
       });
     }
   }
