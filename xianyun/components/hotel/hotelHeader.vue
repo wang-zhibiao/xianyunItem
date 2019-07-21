@@ -3,10 +3,10 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/hotel?city=74' }">酒店</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/hotel?city=74' }">南京酒店</el-breadcrumb-item>
-      <el-breadcrumb-item>{{hoName.telName}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{data.name}}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="hotelTitle">
-      <span>{{hoName.telName}}</span>
+      <span>{{data.name}}</span>
       <i class="iconfont iconhuangguan"></i>
       <i class="iconfont iconhuangguan"></i>
       <i class="iconfont iconhuangguan"></i>
@@ -27,11 +27,6 @@ export default {
       type: Object,
       default: {}
     },
-
-    hoName:{
-      type: Object,
-      default: {}
-    }
   }
 };
 </script>

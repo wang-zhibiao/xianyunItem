@@ -1,9 +1,9 @@
 <template>
     <div class="hotel-detail">
         <!-- 酒店头部 -->
-        <HotelHeader :data="dataList" :hoName="hotelName"/>
+        <HotelHeader :data="dataList" />
         <!-- 酒店详情轮播图 -->
-        <Detailsliper />
+        <Detailsliper :data="dataList"/>
         <!-- 酒店地图 -->
         <DetailMap/>
         <!-- 酒店详细信息 -->
@@ -25,9 +25,6 @@ export default {
             dataList:{
                 scores:{},
             },
-            hotelName:{
-
-            }
         }
     },
     components: {
@@ -43,8 +40,6 @@ export default {
         })
         .then((res) => {
             this.dataList = res.data.data[0]
-            this.hotelName ={telName:(this.dataList.breadcrumb.split(">")[(this.dataList.breadcrumb.split(">").length - 1)])}
-          
         })
     },
 }
