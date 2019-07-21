@@ -1,37 +1,8 @@
 <!-- 文章展示区域 -->
 <template>
   <div>
-    <!-- 头部 -->
-    <header>
-      <!-- 搜索框 -->
-      <div class="search">
-        <el-input
-          @keyup.enter.native="searchByCity"
-          placeholder="请输入想去的地方，比如'广州'"
-          v-model="searchText"
-          class="input-with-select"
-        >
-          <el-button @click="searchByCity" slot="append" icon="el-icon-search"></el-button>
-        </el-input>
-      </div>
-      <!-- 推荐 -->
-      <el-row class="recommend" type="flex" :gutter="10" justify="space-between">
-        <el-col>推荐:</el-col>
-        <el-col v-for="(item,index) in recommendList" :key="index">
-          <!-- 后期根据城市名展示数据 -->
-          <a href="javascript:void(0)" @click="getDataByCity(item)">{{item}}</a>
-        </el-col>
-      </el-row>
-      <el-row class="strategy" type="flex" justify="space-between">
-        <el-col class="strategy-text" :span="4">推荐攻略</el-col>
-        <el-col style="flex:1"></el-col>
-        <el-col class="writeBtn" :span="4">
-          <el-button type="primary" icon="el-icon-edit">
-            <nuxt-link to="/post/create">写游记</nuxt-link>
-          </el-button>
-        </el-col>
-      </el-row>
-    </header>
+    <!-- 头部组件 -->
+    <Head @searchByCity="searchByCity" @getDataByCity="getDataByCity"></Head>
     <!-- 城市旅游信息 -->
     <main v-for="(item,index) in articleData" :key="index">
       <!-- 3张图片 -->
@@ -111,13 +82,12 @@
   </div>
 </template>
 <script>
+import Head from './head'
 export default {
   
   data() {
     return {
-      searchText: "",
-      // 推荐文字数组
-      recommendList: ["广州", "上海", "北京"],
+      
       // 文章列表数据
       articleData: [],
       // 当前页码数
@@ -131,6 +101,9 @@ export default {
       // 定义一个接收城市的变量
       city: ""
     };
+  },
+  components:{
+    Head
   },
   mounted() {
     // 默认从第0条数据开始拿，拿3条数据
@@ -146,12 +119,12 @@ export default {
 
   methods: {
     // 搜索框筛选事件
-    searchByCity() {
-      if (!this.searchText.trim()) {
+    searchByCity(city) {
+      if (!city.trim()) {
         this.$message.warning("请输入成名后再搜索!");
         return;
       }
-      this.init(this.start, this.limit, this.searchText);
+      this.initByCity(city)
     },
 
     // 根据城市名请求数据
@@ -180,7 +153,7 @@ export default {
         }
       }).then(res => {
         if (res.data.data.length == 0) {
-          this.$message.warning("改城市还没开通攻略，请确认输入的城市名无误！");
+          this.$message.warning("该城市还没开通攻略，请确认输入的城市名无误！");
         }
         this.articleData = res.data.data;
         this.total = res.data.total;
@@ -216,62 +189,7 @@ export default {
 // 主颜色
 @color: orange;
 @bdgray: 0.5px solid rgb(224, 223, 223);
-// 头部样式
-header {
-  margin-top: 15px;
-  // 搜索框
-  .search {
-    font-size: 16px;
-    /deep/.el-icon-search {
-      font-size: 25px;
-      color: @color;
-      font-weight: 600;
-    }
-    /deep/.el-input-group__append {
-      background-color: #fff;
-      border-radius: 0;
-      border: none;
-    }
-    /deep/.el-input__inner {
-      border: none;
-    }
-    .input-with-select {
-      border: @bd;
-      border-radius: 0;
-    }
-    ::-webkit-input-placeholder {
-      /* WebKit browsers */
-      color: #757575;
-      letter-spacing: 2px;
-    }
-  }
-  // 推荐文字
-  .recommend {
-    width: 150px;
-    font-size: 12px;
-    margin: 10px 0;
-    color: #757575;
-    a {
-      &:hover {
-        color: orange;
-        text-decoration: underline;
-      }
-    }
-  }
-  // 推荐攻略
-  .strategy {
-    border-bottom: @bdgray;
-    .strategy-text {
-      width: 73px;
-      line-height: 40.4px;
-      font-weight: 400;
-      font-size: 18px;
-      color: @color;
-      padding-bottom: 10px;
-      border-bottom: 2px solid @color;
-    }
-  }
-}
+
 // 主内容样式
 main {
   img {
