@@ -82,12 +82,10 @@
   </div>
 </template>
 <script>
-import Head from './head'
+import Head from "./head";
 export default {
-  
   data() {
     return {
-      
       // 文章列表数据
       articleData: [],
       // 当前页码数
@@ -102,17 +100,28 @@ export default {
       city: ""
     };
   },
-  components:{
+  components: {
     Head
   },
   mounted() {
+    console.log("%c%s","color: #1ddaac;",`
+    Author:Gauhar Chan    旅游攻略内容展示区
+⊂_ヽ
+　 ＼＼  Λ＿Λ
+　　 ＼( 'ㅅ' )
+　　　 >　⌒ヽ
+　　　/ 　 へ＼
+　　 /　　/　＼＼
+　　 ﾚ　ノ　　 ヽ_つ
+　　/　/
+　 /　/|`);
     // 默认从第0条数据开始拿，拿3条数据
     this.init(0, 3);
   },
   watch: {
-    $route({query},old){
+    $route({ query }, old) {
       // 获取路由改变后带的城市名，然后调用封装好的方法
-      let city = query.city
+      let city = query.city;
       this.initByCity(city);
     }
   },
@@ -124,7 +133,7 @@ export default {
         this.$message.warning("请输入成名后再搜索!");
         return;
       }
-      this.initByCity(city)
+      this.initByCity(city);
     },
 
     // 根据城市名请求数据
@@ -173,12 +182,12 @@ export default {
     handleSizeChange(val) {
       this.currentPage = 1;
       this.limit = val;
-      this.changSize()
+      this.changSize();
     },
     // 改变页码数
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.changSize()
+      this.changSize();
     }
   }
 };
