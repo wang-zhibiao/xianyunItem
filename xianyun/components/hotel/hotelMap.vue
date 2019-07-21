@@ -29,6 +29,11 @@ export default {
       })
     },
     setMapInfo(){
+       this.map = new AMap.Map("hotelMap", {
+        zoom: 11, //级别
+        center: this.center, //中心点坐标
+        viewMode: "3D" //使用3D视图
+      });
       console.log(this.MapData);
       this.MapData.forEach(v=>{
         //生成多个坐标点
@@ -48,12 +53,6 @@ export default {
      setTimeout(()=>{
        this.setMapInfo()
      },3000)
-    //  this.setMapInfo()
-      this.map = new AMap.Map("hotelMap", {
-        zoom: 11, //级别
-        center: this.center, //中心点坐标
-        viewMode: "3D" //使用3D视图
-      });
   }
 };
 </script>
