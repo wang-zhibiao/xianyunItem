@@ -5,7 +5,7 @@
     <Head @searchByCity="searchByCity" @getDataByCity="getDataByCity"></Head>
     <!-- 城市旅游信息 -->
     <main v-for="(item,index) in articleData" :key="index">
-      <!-- 3张图片 -->
+      <!-- 多张图片 -->
       <nuxt-link :to="`/post/detail?id=${item.id}`" class="three" v-if="item.images.length > 1">
         <div class="title">{{item.title}}</div>
         <p class="description">{{item.summary}}</p>
