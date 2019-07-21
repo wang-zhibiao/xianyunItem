@@ -6,9 +6,10 @@
             <el-col :span="19">
                 <el-row>
                     <el-col :span="24" :class="{area_content:true,hidden:isShowArea}">
+                        <nuxt-link to="#">全部</nuxt-link>
                          <nuxt-link to="#" class="strategy_id" v-for="(item,index) in strategy" :key="index" :id="item.id">{{item.name}}</nuxt-link>
                          </el-col>
-                         <nuxt-link to="#"><i class="el-icon-d-arrow-right" @click="show_content" :class="{icon_hide:!isShowArea,icon_show:isShowArea}"></i>等43个区域</nuxt-link>
+                         <nuxt-link to="#"><i class="el-icon-d-arrow-right" @click="show_content" :class="{icon_hide:!isShowArea,icon_show:isShowArea}"></i>等{{strategy.length}}个区域</nuxt-link>
                 </el-row>
             </el-col>
         </el-row>
@@ -63,16 +64,22 @@
 </template>
 <script>
 export default {
+    props:['name'],
     data(){
         return{
             strategy:[
-               
             ],
             isShowArea:false // 显示区域
         }
     },
     mounted () {
+        // console.log(this.name);
          this.getCityStrategy()
+    },
+    watch: {
+      $route(){
+           this.getCityStrategy()
+      }  
     },
     methods: {
         //显示详情
@@ -81,16 +88,18 @@ export default {
         },
         // 搜索城市区域景点
         getCityStrategy(){
-            this.$axios({
+           setTimeout(()=>{
+                this.$axios({
                 url:'/cities',
                 params:{
-                    name:"南京市"
+                    name:this.name
                 }
             }).then(res=>{
-                console.log(res);
+                // console.log(res);
                 this.strategy = res.data.data[0].scenics
-                console.log(this.strategy);
+                // console.log(this.strategy);
             })
+           },2000)
         }
     }
 }
