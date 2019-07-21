@@ -74,7 +74,7 @@ export default {
         { adult: 6, children: 6 }
       ],
       form: {
-        hotelCity: "", // 查询城市
+        hotelCity: "南京市", // 查询城市
         hoteldate: "", //住房时间
         number: "", // 住房人数
         adult: "2", //成人

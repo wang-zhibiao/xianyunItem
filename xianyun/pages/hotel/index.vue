@@ -21,7 +21,9 @@
        <!-- 酒店分类筛选 -->
         <Hotelclassify/>
         <!-- 酒店列表页面 -->
-        <HotelList/>
+        <HotelList :data="HotelList"/>
+        <!-- 分页器 -->
+        
     </el-row>
   </div>
 </template>
@@ -36,11 +38,46 @@ import HotelList from '@/components/hotel/HotelList'
 export default {
     data () {
         return {
-            
+          HotelList:[],
+            hotel:{
+              id:1,
+              city:74,
+              price_in:99,
+              scenic:1,
+              name_contains:"",
+              hotellevel:1,
+              hoteltype:1,
+              hotelbrand:1,
+              hotelasset:1,
+              enterTime:"2019-7-29",
+              leftTime:"2019-8-02",
+              person:2,
+              limit:3,
+              start:1
+            }
         }
     },
     components: {
         HotelFiltrate,HotelStrategy,hotelMap,Hotelclassify,HotelList
+    },
+    mounted () {
+      this.getHotelList()
+    },
+    methods: {
+      //获取酒店列表数据
+      getHotelList(){
+        const {id,city,enterTime,leftTime,limit,start} = this.hotel
+        this.$axios({
+          url:'/hotels',
+          params:{
+            city,enterTime,leftTime,
+            _limit:limit,_start:start
+          }
+        }).then(res=>{
+          // console.log(res);
+          this.HotelList = res.data.data
+        })
+      }
     }
 };
 </script>
