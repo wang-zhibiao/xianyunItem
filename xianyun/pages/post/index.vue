@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <el-row type="flex" class="post_content" justify="space-between" align="middle">
+    <el-row type="flex" class="post_content" justify="space-between">
       <el-col class="menus-wrapper" :span="7">
         <!-- 左侧菜单导航栏 -->
         <Aside></Aside>
@@ -31,17 +31,5 @@ export default {
 .post_content {
   width: 1000px;
   margin: 0 auto;
-  // height: 900px;
-  // background: #000;
-  .menus-wrapper {
-    width: 260px;
-    height: 900px;
-    background: green;
-  }
-  .post-wrapper {
-    width: 700px;
-    // height: 900px;
-    // background: red;
-  }
 }
 </style>
