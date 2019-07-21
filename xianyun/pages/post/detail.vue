@@ -48,11 +48,15 @@
               :on-remove="handleRemove"
               :on-success="handleSuccess"
               :before-upload="handleBeforeUpload"
+              :on-preview="handlePictureCardPreview"
               name="files"
               ref="clear"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="pics" />
+            </el-dialog>
           </div>
           <div>
             <el-button type="primary" @click="handlePinLun">提交</el-button>
@@ -125,28 +129,29 @@ export default {
       tuiJianData: [],
       pics: [],
       limit: 2,
-      start: 1,
+      start: 0,
       total: 0,
-      pinLunData: []
+      pinLunData: [],
+      dialogVisible: false
     };
   },
   methods: {
     // 分页评论
-    init(){
+    init() {
       this.$axios({
-      url: "/posts/comments",
-      params: {
-        post: this.dataList.id,
-        _limit: this.limit,
-        _start: this.start
-      }
-    }).then(res => {
-      console.log(res);
-      if (res.status === 200) {
-        this.total = res.data.total;
-        this.pinLunData = res.data.data;
-      }
-    });
+        url: "/posts/comments",
+        params: {
+          post: this.dataList.id,
+          _limit: this.limit,
+          _start: this.start
+        }
+      }).then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.total = res.data.total;
+          this.pinLunData = res.data.data;
+        }
+      });
     },
     // 提交评论
     handlePinLun() {
@@ -186,29 +191,34 @@ export default {
     },
     // 上传成功的勾子
     handleSuccess(response) {
-      const imgs = { url: response[0].url };
+      const imgs = { url: response[0].name };
       this.pics.push(imgs);
-      // console.log(response);
+      console.log(response);
     },
 
     // 删除图片的勾子
     handleRemove(file) {
       // console.log(file);
       this.pics.forEach((e, i) => {
-        if (e.url === file.response[0].url) {
+        if (e.name === file.response[0].name) {
           this.pics.splice(i, 1);
         }
       });
     },
+    handlePictureCardPreview(file) {
+      console.log(file);
+      this.pics = file.url;
+      this.dialogVisible = true;
+    },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
       this.limit = val;
-      this.init()
+      this.init();
     },
     handleCurrentChange(val) {
       // console.log(`当前页: ${val}`);
       this.start = val;
-      this.init()
+      this.init();
     }
   },
   mounted() {
@@ -224,7 +234,7 @@ export default {
     });
 
     // 获取所有评论
-    this.init()
+    this.init();
 
     // 获取文章详情
     this.$axios({
@@ -297,15 +307,15 @@ export default {
   }
   .cmt-input-ctrls {
     margin-bottom: 30px;
-    /deep/ .el-upload--picture-card{
+    /deep/ .el-upload--picture-card {
       width: 100px;
       height: 100px;
       line-height: 100px;
     }
-        /deep/ .el-upload-list__item {
-          width: 100px;
-          height: 100px;
-        }
+    /deep/ .el-upload-list__item {
+      width: 100px;
+      height: 100px;
+    }
   }
 }
 .cmt-list {
