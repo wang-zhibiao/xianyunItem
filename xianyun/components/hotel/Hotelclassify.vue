@@ -105,7 +105,7 @@ export default {
   border: 1px solid #ccc;
   font-size: 14px;
   color: #666;
-  margin: 15px;
+  margin: 15px 0;
   .hotel_price {
     padding: 5px 20px;
   }
