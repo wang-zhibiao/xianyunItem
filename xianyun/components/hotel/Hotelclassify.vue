@@ -95,9 +95,7 @@ export default {
     }).then(res => {
       const {data} = res.data;
       this.Hotel = data;
-      console.log(this.Hotel,111);
     });
-      console.log(this.Hotel,222);
   },
 };
 </script>

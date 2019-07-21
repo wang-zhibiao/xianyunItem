@@ -31,6 +31,9 @@ export default {
 .post_content {
   width: 1000px;
   margin: 0 auto;
+<<<<<<< HEAD
+=======
   
+>>>>>>> 680da832c990deb9242a108a64d83015a3998b6e
 }
 </style>
