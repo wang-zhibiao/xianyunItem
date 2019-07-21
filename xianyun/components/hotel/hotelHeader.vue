@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">酒店</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/' }">南京酒店</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/hotel?city=74' }">酒店</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/hotel?city=74' }">南京酒店</el-breadcrumb-item>
       <el-breadcrumb-item>{{hoName.telName}}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="hotelTitle">
