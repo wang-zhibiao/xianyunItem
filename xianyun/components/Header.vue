@@ -41,6 +41,9 @@
 </template>
 <script>
 export default {
+  // updated(){
+  //   console.log(this.$store.state.user.userInfo)
+  // },
   data(){
     return{
 

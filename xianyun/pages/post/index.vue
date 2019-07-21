@@ -7,7 +7,7 @@
       </el-col>
       <el-col class="post-wrapper" :span="17">
         <!-- 文章展示区域 -->
-        <Main :asideCity="city"></Main>
+        <Main></Main>
       </el-col>
     </el-row>
   </div>
@@ -24,16 +24,6 @@ export default {
   components: {
     Aside,
     Main
-  },
-  // 路由导航守卫
-  beforeRouteUpdate(to,from,next){
-    next();
-    const obj = this.$route.query
-    // 定义一个数组接收url后面的值
-    let temp = Object.keys(obj)
-    if(temp.length != 0){
-      this.city = obj[temp[0]]
-    }
   },
 };
 </script>

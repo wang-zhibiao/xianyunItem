@@ -35,7 +35,7 @@
     <!-- 城市旅游信息 -->
     <main v-for="(item,index) in articleData" :key="index">
       <!-- 3张图片 -->
-      <nuxt-link to class="three" v-if="item.images.length > 1">
+      <nuxt-link :to="`/post/detail?id=${item.id}`" class="three" v-if="item.images.length > 1">
         <div class="title">{{item.title}}</div>
         <p class="description">{{item.summary}}</p>
         <!-- 图片 -->
@@ -65,7 +65,7 @@
         </el-row>
       </nuxt-link>
       <!-- 1张图片 -->
-      <nuxt-link to class="one" v-else>
+      <nuxt-link :to="`/post/detail?id=${item.id}`" class="one" v-else>
         <el-row type="flex">
           <el-col :span="8">
             <img :src="item.images" alt />
@@ -112,12 +112,7 @@
 </template>
 <script>
 export default {
-  props: {
-    asideCity: {
-      type: String,
-      default: ""
-    }
-  },
+  
   data() {
     return {
       searchText: "",
@@ -142,14 +137,15 @@ export default {
     this.init(0, 3);
   },
   watch: {
-    asideCity(city, old) {
-      // city是路由改变后带的城市名，然后调用封装好的方法
+    $route({query},old){
+      // 获取路由改变后带的城市名，然后调用封装好的方法
+      let city = query.city
       this.initByCity(city);
     }
   },
 
   methods: {
-    // 搜索框帅选事件
+    // 搜索框筛选事件
     searchByCity() {
       if (!this.searchText.trim()) {
         this.$message.warning("请输入成名后再搜索!");
