@@ -11,11 +11,49 @@
       <span v-for="(item,index) in imgList" :key="index" @click="imgchange(index)">
         <img :src="item.idView" />
       </span>
-     </div>
+    </div>
+
+    <el-row class="row-bg">
+      <el-col :span="24">
+        <el-row type="flex" justify="space-between" class="hotelList">
+          <el-col :span="10">
+            <span>价格来源</span>
+          </el-col>
+          <el-col :span="10">
+            <span>低价房型</span>
+          </el-col>
+          <el-col :span="4">
+            <span>最低价/每晚</span>
+          </el-col>
+        </el-row>
+      </el-col>
+      <el-col :span="24" v-for="(item,index) in data.products" :key="index">
+        <el-row type="flex" justify="space-between" class="colList">
+          <el-col :span="10">
+            <span>{{item.name}}</span>
+          </el-col>
+          <el-col :span="10">
+            <span>{{item.bestType}}</span>
+          </el-col>
+          <el-col :span="4">
+            <span class="price">
+              ￥{{item.price}}<span class="text">起</span>
+              <i class="el-icon-arrow-right"></i>
+            </span>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
   data() {
     return {
       imgList: [
@@ -29,10 +67,10 @@ export default {
     };
   },
 
-  methods:{
-      imgchange(index) {
-        this.$refs.carousel.setActiveItem(index)
-      }
+  methods: {
+    imgchange(index) {
+      this.$refs.carousel.setActiveItem(index);
+    }
   }
 };
 </script>
@@ -68,6 +106,38 @@ export default {
       width: 160px;
       height: 110px;
       cursor: pointer;
+    }
+  }
+
+  .row-bg {
+    margin-top: 30px;
+    .hotelList {
+      font-weight: 1000;
+      color: #909399;
+      height: 48px;
+      padding: 12px 0;
+      padding-left: 8px;
+      border-bottom: 1px solid #ccc;
+    }
+    .colList {
+      color: #666;
+      height: 48px;
+      padding: 12px 0;
+      padding-left: 8px;
+      font-size: 14px;
+      border-bottom: 1px solid #ccc;
+      .price {
+        color: orange;
+        font-size: 17px;
+        .text{
+          color: #666;
+          padding: 0 5px;
+          font-size: 14px;
+        }
+      }
+      &:hover {
+        background-color: #f5f7fa;
+      }
     }
   }
 }

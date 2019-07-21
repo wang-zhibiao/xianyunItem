@@ -1,27 +1,34 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">酒店</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/' }">南京酒店</el-breadcrumb-item>
-      <el-breadcrumb-item>好来阁商务宾馆</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/hotel?city=74' }">酒店</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/hotel?city=74' }">南京酒店</el-breadcrumb-item>
+      <el-breadcrumb-item>{{data.name}}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="hotelTitle">
-      <span>好来阁商务宾馆</span>
+      <span>{{data.name}}</span>
       <i class="iconfont iconhuangguan"></i>
       <i class="iconfont iconhuangguan"></i>
       <i class="iconfont iconhuangguan"></i>
       <i class="iconfont iconhuangguan"></i>
       <i class="iconfont iconhuangguan"></i>
-      <p>hao lai ge shang wu hotel</p>
+      <p>{{data.alias}}</p>
     </div>
     <div class="site">
       <i class="iconfont iconlocation"></i>
-      <span>高淳县淳溪镇镇兴路118号(高淳县委党校对面)</span>
+      <span>{{data.address}}</span>
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    },
+  }
+};
 </script>
 <style lang="less" scoped>
 .hotelTitle {
