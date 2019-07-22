@@ -3,8 +3,12 @@
     <div class="cmt-list" v-for="(item,index) in pinLunData" :key="index">
       <div class="cmt-item">
         <div class="cmt-info">
-          <img  :src="typeof(item.account) == 'object'?'http://157.122.54.189:9095' + item.account.defaultAvatar : ''" />
-          <em style="font-style:normal">{{typeof(item.account) == 'object'?item.account.nickname:''}}</em>
+          <img
+            :src="typeof(item.account) == 'object'?'http://157.122.54.189:9095' + item.account.defaultAvatar : ''"
+          />
+          <em
+            style="font-style:normal"
+          >{{typeof(item.account) == 'object'?item.account.nickname:''}}</em>
           <i>{{changeTime(item.created_at)}}</i>
           <span>{{item.level}}</span>
         </div>
@@ -12,8 +16,10 @@
           <p class="cmt-message">{{item.content}}</p>
           <el-row type="flex">
             <!-- <div class="cmt-pic" v-if="item.pics.length>0"> -->
-              <div class="cmt-pic" v-if="Object.keys(item).indexOf('pics') != -1">
-              <!-- <img :src="Object.keys(item).indexOf(`pics`) != -1 ? 'http://157.122.54.189:9095' + item.pics[0].url :''" /> -->
+            <div class="cmt-pic" v-if="Object.keys(item).indexOf('pics') != -1">
+              <img
+                :src="Object.keys(item).indexOf(`pics`) != -1 && item.pics.length>0 ? 'http://157.122.54.189:9095' + item.pics[0].url :''"
+              />
             </div>
           </el-row>
           <div class="cmt-ctrl">
@@ -21,33 +27,44 @@
           </div>
         </div>
       </div>
-      <Item :pinLunData="item.follow"></Item>
+      <Item :pinLunData="followArray(item)"></Item>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name:'Item',
-    props:{
-        pinLunData:{
-            type:Array,
-            default:[]
-        }
-    },
-    methods:{
-       // 过滤时间
+  name: "Item",
+  props: {
+    pinLunData: {
+      type: Array,
+      default: []
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      console.log(this.pinLunData);
+    }, 1000);
+  },
+  methods: {
+    // 过滤时间
     changeTime(created_at) {
-      console.log(created_at);
-
       return this.$moment(created_at).format("YYYY-MM-DD HH:mm");
     },
+    followArray(item) {
+      if (item.parent) {
+        let arr = [];
+        arr.push(item.parent);
+        return arr;
+      }else{
+        return ''
+      }
     }
-}
+  }
+};
 </script>
 <style lang="less" scoped>
 .cmt-list {
   .cmt-item {
-    padding: 20px 20px 5px;
     .cmt-info {
       img {
         width: 16px;
