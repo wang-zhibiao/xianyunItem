@@ -6,7 +6,7 @@
           <div class="user">
             <!-- 头像 -->
             <div class="avatar">
-              <img :src="$axios.defaults.baseURL+''+item.account.defaultAvatar" alt />
+              <img :src="item.account.defaultAvatar? $axios.defaults.baseURL+''+item.account.defaultAvatar :defaultAvatar"  alt />
             </div>
             <!-- 等级 -->
             <div class="level">LV.{{item.level}}</div>
@@ -50,7 +50,8 @@ export default {
   data() {
     return {
       textarea1: "",
-      row: 1
+      row: 1,
+      defaultAvatar:require('../../assets/images/avatar.jpg')
     };
   },
   methods: {

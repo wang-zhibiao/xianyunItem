@@ -2,7 +2,7 @@
   <div class="HotelList">
     <el-row type="flex" justify="space-between" class="List_content" v-for="(item,index) in data" :key="index">
       <el-col :span="8" style="padding-left: 10px; padding-right: 10px;">
-        <nuxt-link to="#">
+        <nuxt-link :to="`/hotel/detail?id=${item.id}`">
           <img
             data-v-0a769ebc
             :src="item.photos"
@@ -14,7 +14,7 @@
       </el-col>
       <el-col :span="10" style="padding:0 15px;">
         <h4>
-          <nuxt-link to="#">{{item.name}}</nuxt-link>
+          <nuxt-link :to="`/hotel/detail?id=${item.id}`">{{item.name}}</nuxt-link>
         </h4>
         <el-col style="padding:5px 0;">
           <span>{{item.alias}}</span>
@@ -25,10 +25,13 @@
           <el-row type="flex" justify="space-between" style="padding:5px 0;">
             <el-col :span="10">
               <div class="levels">
-                <span class="el-rate__item" style="cursor: auto;">
-                  <i class="el-rate__icon el-icon-star-on" style="color: rgb(247, 186, 42);"></i>
-                </span>
-                <span class="el-rate__text" style="color: rgb(255, 153, 0);">3.5分</span>
+                <el-rate
+              v-model="item.stars"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value}"
+            ></el-rate>
               </div>
             </el-col>
             <el-col :span="7">

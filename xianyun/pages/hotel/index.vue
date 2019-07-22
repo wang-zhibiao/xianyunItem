@@ -18,7 +18,7 @@
         <HotelStrategy :name="backCity" />
       </el-col>
       <!-- 地图 -->
-      <el-col :span="10" class="Hotel_map">
+      <el-col :span="10" class="Hotel_map"   >
         <hotelMap :MapData="location" />
       </el-col>
       <!-- 酒店分类筛选 -->
@@ -49,6 +49,8 @@ import HotelList from "@/components/hotel/HotelList";
 export default {
   data() {
     return {
+      
+      
       total:0,
       //地图的数据
       location:[],
@@ -57,7 +59,7 @@ export default {
       //缓存列表数据
       rantList:[],
       //返回的城市数据
-      changeData:3,
+      changeData:4,
       backCity:{},
       hotel: {
         id: 1,
@@ -85,6 +87,7 @@ export default {
   },
   mounted() {
     this.getHotelList();
+   
   },
   watch: {
     $route(){

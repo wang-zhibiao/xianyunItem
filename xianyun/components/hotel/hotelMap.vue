@@ -1,5 +1,8 @@
 <template>
-  <div id="hotelMap">
+  <div id="hotelMap" v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.5)">
     <script
       type="text/javascript"
       src="https://webapi.amap.com/maps?v=1.4.15&key=d67b45d503ac4dac45d41b907bc974db"
@@ -17,6 +20,8 @@ export default {
   },
   data() {
     return {
+      //地图加载时间
+      loading:true,
       //地图窗体信息
       content: "高级酒店",
       map: null,
@@ -44,8 +49,12 @@ export default {
       });
     },
     setMapInfo() {
-      const {location} = this.MapData[0]
+      
+      const {location} = this.MapData[3]
       //重新设置地图中心点
+       setTimeout(()=>{
+      this.loading = false;
+      },1000)
       this.center = [location.longitude,location.latitude]
       this.map = new AMap.Map("hotelMap", {
         zoom: 10, //级别
@@ -64,10 +73,11 @@ export default {
     $route() {
       setTimeout(() => {
         this.setMapInfo();
+        this.loading =true;
       }, 3000);
     }
   },
-  mounted() {
+  mounted() { 
     setTimeout(() => {
       this.setMapInfo();
     }, 3000);
