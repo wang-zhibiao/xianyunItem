@@ -7,7 +7,7 @@
           <el-col :span="12" class="price_right">0-{{price*40}}</el-col>
         </el-row>
         <el-row>
-          <el-slider v-model="price" :format-tooltip="formatTooltip"></el-slider>
+          <el-slider v-model="price" :format-tooltip="formatTooltip" @change="changePrice"></el-slider>
         </el-row>
       </el-col>
       <el-col :span="6" class="HotelSeT">
@@ -88,6 +88,10 @@ export default {
     formatTooltip(val) {
       return val * 40;
     },
+    //改变价格时触发
+    changePrice(){
+
+    }
   },
   mounted (){
    this.$axios({

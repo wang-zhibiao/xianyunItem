@@ -60,7 +60,7 @@ export default {
         id: 1,
         city: 74,
         price_in: 99,
-        scenic: 1,
+        scenic: 3227,
         name_contains: "",
         hotellevel: 1,
         hoteltype: 1,
@@ -86,8 +86,9 @@ export default {
   },
   watch: {
     $route(){
-      const {city} = this.$route.query
+      const {city,scenic} = this.$route.query
       this.hotel.city = city
+      this.hotel.scenic = scenic
       this.getHotelList();
     }
   },
@@ -104,7 +105,7 @@ export default {
     },
     //获取酒店列表数据
     getHotelList() {
-      const { id, city, enterTime, leftTime, limit, start } = this.hotel;
+      const { id, city, enterTime, leftTime, limit, start,scenic } = this.hotel;
       this.$axios({
         baseURL: "http://157.122.54.189:9095",
         url: "/hotels",
@@ -112,8 +113,10 @@ export default {
           city,
           enterTime,
           leftTime,
+          scenic,
           _limit: limit,
-          _start: start
+          _start: start,
+          
         }
       }).then(res => {
         // console.log(res);
@@ -121,7 +124,7 @@ export default {
         this.location = res.data.data;
         this.total = res.data.total
         this.backCity = res.data.data[0].city.name
-        // console.log(this.location);
+        // console.log(this.backCity);s
       });
     }
   }
