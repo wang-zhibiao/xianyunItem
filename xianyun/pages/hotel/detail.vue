@@ -36,7 +36,7 @@ export default {
             baseURL:'http://157.122.54.189:9095',
             url:'hotels',
             params:{
-                id:19
+                id:this.$route.query.id
             }
         })
         .then((res) => {
