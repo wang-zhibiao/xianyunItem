@@ -25,6 +25,7 @@ export default {
             dataList:{
                 scores:{},
             },
+            mapData:[]
         }
     },
     components: {
