@@ -5,9 +5,9 @@
         <!-- 酒店详情轮播图 -->
         <Detailsliper :data="dataList"/>
         <!-- 酒店地图 -->
-        <DetailMap/>
+        <DetailMap />
         <!-- 酒店详细信息 -->
-        <DetailNews/>
+        <DetailNews :data="dataList"/>
         <!-- 酒店评论 -->
         <DetailComment :data="dataList"/>
     </div>
@@ -24,6 +24,7 @@ export default {
         return {
             dataList:{
                 scores:{},
+                hotelbrand:{}
             },
             mapData:[]
         }
@@ -41,6 +42,7 @@ export default {
         })
         .then((res) => {
             this.dataList = res.data.data[0]
+            console.log(this.dataList)
         })
     },
 }
