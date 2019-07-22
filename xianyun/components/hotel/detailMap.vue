@@ -13,6 +13,11 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      activeName: 'first'
+    };
+  },
   mounted() {
     window.onLoad = function() {
       var map = new AMap.Map("container", {
@@ -29,20 +34,8 @@ export default {
         position: new AMap.LngLat(118.870436, 31.329013),
         title: "北京"
       });
-      var marker3 = new AMap.Marker({
-        position: new AMap.LngLat(118.868838, 31.319082),
-        title: "北京"
-      });
-      var marker4 = new AMap.Marker({
-        position: new AMap.LngLat(118.868838, 31.319032),
-        title: "北京"
-      });
-      var marker5 = new AMap.Marker({
-        position: new AMap.LngLat(118.868838, 35.319002),
-        title: "北京"
-      });
 
-      map.add([marker1, marker2, marker3, marker4, marker5]);
+      map.add([marker1, marker2]);
     };
     var key = "6f77904e52b38763ef2be9550d25b73e";
     var url = `https://webapi.amap.com/maps?v=1.4.15&key=${key}&callback=onLoad`;
