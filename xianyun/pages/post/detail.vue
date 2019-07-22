@@ -198,6 +198,7 @@ export default {
         if (res.status === 200) {
           this.total = res.data.total;
           this.pinLunData = res.data.data;
+          console.log(this.pinLunData);
         }
       });
     },
