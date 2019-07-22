@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding:20px;border: 1px solid #ccc;">
     <div class="cmt-list" v-for="(item,index) in pinLunData" :key="index">
       <div class="cmt-item">
         <div class="cmt-info">
@@ -14,6 +14,7 @@
         </div>
 
         <div class="cmt-content">
+          <Item :pinLunData="followArray(item)" style="padding:2px;background: #eee;border:1px solid #333"></Item>
           <p class="cmt-message">{{item.content}}</p>
           <el-row type="flex">
             <!-- <div class="cmt-pic" v-if="item.pics.length>0"> -->
@@ -22,7 +23,7 @@
                 :src="Object.keys(item).indexOf(`pics`) != -1 && item.pics.length>0 ? 'http://157.122.54.189:9095' + item.pics[0].url :''"
               />
             </div>
-            <Item :pinLunData="followArray(item)"></Item>
+            
           </el-row>
           <div class="cmt-ctrl">
             <a href="javascript:;" @click="handleDiGui(item)">回复</a>
@@ -65,6 +66,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .cmt-list {
+  
+  // padding: 20px 20px 5px;
   .cmt-item {
     .cmt-info {
       img {
@@ -90,16 +93,17 @@ export default {
     margin-right: 5px;
     margin-top: 10px;
     padding: 5px;
+    
     border: 1px dashed #ddd;
   }
   .cmt-new{
     img{
-      width: 80px;
-      height: 80px;
+      width: 100%;
+      height: 100%;
     }
   }
   .cmt-ctrl{
-    color: aqua;
+    color: #1e50a2;
     position: absolute;
     right: 10px;
     bottom: 0;
