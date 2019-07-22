@@ -25,10 +25,13 @@
           <el-row type="flex" justify="space-between" style="padding:5px 0;">
             <el-col :span="10">
               <div class="levels">
-                <span class="el-rate__item" style="cursor: auto;">
-                  <i class="el-rate__icon el-icon-star-on" style="color: rgb(247, 186, 42);"></i>
-                </span>
-                <span class="el-rate__text" style="color: rgb(255, 153, 0);">3.5分</span>
+                <el-rate
+              v-model="item.stars"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value}"
+            ></el-rate>
               </div>
             </el-col>
             <el-col :span="7">
