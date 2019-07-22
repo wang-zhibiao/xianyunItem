@@ -35,6 +35,7 @@
                     <input 
                 :placeholder="options[currentOption].placeholder" 
                 v-model="searchValue"
+                @keydown="skip"
                    />
                     <i class="el-icon-search" @click="skip"></i>
                 </el-row>
@@ -90,7 +91,7 @@ export default {
     //跳转到
     skip(){
      console.log( this.options[this.currentOption].pageUrl);
-     if(this.searchValue>0){
+     if(this.searchValue !== ''){
        this.$router.push(this.options[this.currentOption].pageUrl+this.searchValue)
      }else{
        this.$message.warning("请输入需要搜索的城市")
