@@ -7,7 +7,10 @@
                 <el-row>
                     <el-col :span="24" :class="{area_content:true,hidden:isShowArea}">
                         <nuxt-link to="#">全部</nuxt-link>
-                         <nuxt-link to="#" class="strategy_id" v-for="(item,index) in strategy" :key="index" :id="item.id">{{item.name}}</nuxt-link>
+                        <span v-for="(item,index) in strategy" :key="index" :id="item.id">
+                            <nuxt-link :to="`/hotel?city=${item.city}&scenic=${item.id}`" class="strategy_id">{{item.name}}</nuxt-link>
+                        </span>
+                         
                          </el-col>
                          <nuxt-link to="#"><i class="el-icon-d-arrow-right" @click="show_content" :class="{icon_hide:!isShowArea,icon_show:isShowArea}"></i>等{{strategy.length}}个区域</nuxt-link>
                 </el-row>

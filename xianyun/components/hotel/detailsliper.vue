@@ -14,7 +14,7 @@
     </div>
 
     <el-row class="row-bg">
-      <el-col :span="24">
+      <el-col :span="24" >
         <el-row type="flex" justify="space-between" class="hotelList">
           <el-col :span="10">
             <span>价格来源</span>
@@ -27,7 +27,7 @@
           </el-col>
         </el-row>
       </el-col>
-      <el-col :span="24" v-for="(item,index) in data.products" :key="index">
+      <el-col :span="24" v-for="(item,index) in data.products" :key="index" class="marg">
         <el-row type="flex" justify="space-between" class="colList">
           <el-col :span="10">
             <span>{{item.name}}</span>
@@ -111,6 +111,11 @@ export default {
 
   .row-bg {
     margin-top: 30px;
+    .marg{
+      &:last-child{
+          margin-bottom: 40px;
+      }
+    }
     .hotelList {
       font-weight: 1000;
       color: #909399;
