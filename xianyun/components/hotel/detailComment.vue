@@ -1,5 +1,6 @@
 <template>
   <div class="comment">
+    <!-- 酒店详情头部 -->
     <header>
       <h4>10条真实用户评论</h4>
       <el-row type="flex">
@@ -64,9 +65,12 @@
         </el-col>
       </el-row>
     </header>
+    <!-- 评论内容组件 -->
+    <Main :data="commentsList"></Main>
   </div>
 </template>
 <script>
+import Main from './commentMain'
 export default {
   props: {
     data: {
@@ -76,14 +80,16 @@ export default {
       }
     }
   },
+  components:{
+      Main
+  },
   data() {
     return {
       //   评论数据
       commentsList: [],
-      scoresData: {}
+      scoresData: {},
     };
   },
-  computed: {},
   mounted() {
     // 请求评论数据
     this.$axios({
@@ -93,7 +99,6 @@ export default {
       this.commentsList = res.data.data;
     });
   },
-  methods: {}
 };
 </script>
 <style lang="less" scoped>
@@ -101,7 +106,6 @@ export default {
   header {
     padding: 30px 0;
     margin-bottom: 20px;
-    border-bottom: 0.5px dashed #ccc;
     h4 {
       margin-bottom: 20px;
     }
@@ -142,21 +146,21 @@ export default {
       }
       //   圆形进度条
       .progressContainer {
-          position: relative;
-          span{
-              position: absolute;
-              top: 20px;
-              left:20px;
-              font-size: 16px;
-              line-height: 16px;
-          }
-          em{
-              position: absolute;
-              top: 40px;
-              left:25px;
-              font-size: 16px;
-              line-height: 16px;
-          }
+        position: relative;
+        span {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          font-size: 16px;
+          line-height: 16px;
+        }
+        em {
+          position: absolute;
+          top: 40px;
+          left: 25px;
+          font-size: 16px;
+          line-height: 16px;
+        }
       }
     }
   }

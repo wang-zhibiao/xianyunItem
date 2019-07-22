@@ -6,7 +6,7 @@ export const state = () => ({
 export const mutations = {
     // 登录数据存储
     setpostInfo(state,val){
-        state.postInfo = val
+        state.postInfo = [...val]
     }
     
 }
