@@ -12,6 +12,7 @@
           <i>{{changeTime(item.created_at)}}</i>
           <span>{{item.level}}</span>
         </div>
+
         <div class="cmt-content">
           <p class="cmt-message">{{item.content}}</p>
           <el-row type="flex">
@@ -21,13 +22,13 @@
                 :src="Object.keys(item).indexOf(`pics`) != -1 && item.pics.length>0 ? 'http://157.122.54.189:9095' + item.pics[0].url :''"
               />
             </div>
+            <Item :pinLunData="followArray(item)"></Item>
           </el-row>
           <div class="cmt-ctrl">
             <a href="javascript:;" @click="handleDiGui(item)">回复</a>
           </div>
         </div>
       </div>
-      <Item :pinLunData="followArray(item)"></Item>
     </div>
   </div>
 </template>
@@ -55,8 +56,8 @@ export default {
         let arr = [];
         arr.push(item.parent);
         return arr;
-      }else{
-        return ''
+      } else {
+        return "";
       }
     }
   }
