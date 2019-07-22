@@ -116,7 +116,7 @@ export default {
 　　/　/
 　 /　/|`);
     // 默认从第0条数据开始拿，拿3条数据
-    this.init(0, 3);
+    this.init(0, 3,this.$route.query.city);
   },
   watch: {
     $route({ query }, old) {
