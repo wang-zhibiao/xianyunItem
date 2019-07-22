@@ -35,7 +35,7 @@
                     <input 
                 :placeholder="options[currentOption].placeholder" 
                 v-model="searchValue"
-                @keydown="skip"
+                @keydown.enter.native="skip"
                    />
                     <i class="el-icon-search" @click="skip"></i>
                 </el-row>
