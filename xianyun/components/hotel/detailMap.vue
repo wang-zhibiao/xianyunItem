@@ -3,10 +3,102 @@
     <div class="clearx">
       <div id="container" style="width:650px; height: 360px;"></div>
       <div class="mapSidt">
-        <el-tabs v-model="activeName">
-          <el-tab-pane label="风景" name="first"></el-tab-pane>
-          <el-tab-pane label="交通" name="second"></el-tab-pane>
-        </el-tabs>
+        <div class="navDiv">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="风景" name="first">
+              <div class="traffic">
+                <ul>
+                  <li>
+                    <span>南京长江大桥</span>
+                    <span>2.42公里</span>
+                  </li>
+                  <li>
+                    <span>浦口公园</span>
+                    <span>3.01公里</span>
+                  </li>
+                  <li>
+                    <span>五塘广场</span>
+                    <span>4.64公里</span>
+                  </li>
+                  <li>
+                    <span>基督教桥北点</span>
+                    <span>0.63公里</span>
+                  </li>
+                  <li>
+                    <span>总统府</span>
+                    <span>11.06公里</span>
+                  </li>
+                  <li>
+                    <span>桥北滨江生态公园</span>
+                    <span>1.52公里</span>
+                  </li>
+                  <li>
+                    <span>阅江楼景区</span>
+                    <span>3.90公里</span>
+                  </li>
+                  <li>
+                    <span>夫子庙</span>
+                    <span>12.96公里</span>
+                  </li>
+                  <li>
+                    <span>古林公园</span>
+                    <span>6.97公里</span>
+                  </li>
+                  <li>
+                    <span>夫珍珠泉旅游度假区</span>
+                    <span>5.56公里</span>
+                  </li>
+                </ul>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="交通" name="second">
+              <div class="traffic">
+                <ul>
+                  <li>
+                    <span>大桥(地铁站)</span>
+                    <span>0.13公里</span>
+                  </li>
+                  <li>
+                    <span>弘阳广场(地铁站)</span>
+                    <span>0.92公里</span>
+                  </li>
+                  <li>
+                    <span>南浦路(地铁站)</span>
+                    <span>1.05公里</span>
+                  </li>
+                  <li>
+                    <span>桥北客运站(公交站)</span>
+                    <span>0.41公里</span>
+                  </li>
+                  <li>
+                    <span>南京长途汽车客运北站(地铁站)</span>
+                    <span>0.52公里</span>
+                  </li>
+                  <li>
+                    <span>长江大桥北(公交站)</span>
+                    <span>0.17公里</span>
+                  </li>
+                  <li>
+                    <span>江山路大桥北路(公交站)</span>
+                    <span>0.15公里</span>
+                  </li>
+                  <li>
+                    <span>桥荫路·浦珠北路(公交站)</span>
+                    <span>0.19公里</span>
+                  </li>
+                  <li>
+                    <span>桥荫路北(公交站)</span>
+                    <span>0.36公里</span>
+                  </li>
+                  <li>
+                    <span>柳州路(地铁站)</span>
+                    <span>1.62公里</span>
+                  </li>
+                </ul>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
       </div>
     </div>
   </div>
@@ -15,8 +107,14 @@
 export default {
   data() {
     return {
-      activeName: 'first'
+      activeName: "first",
+      count: 0
     };
+  },
+  methods: {
+    load() {
+      this.count += 2;
+    }
   },
   mounted() {
     window.onLoad = function() {
@@ -67,6 +165,23 @@ export default {
     left: 670px;
     width: 330px;
     height: 360px;
+  }
+
+  .traffic {
+    overflow-y: auto;
+    height: 300px;
+    ul {
+      li {
+        height: 40px;
+        color: #666;
+        font-size: 14px;
+        padding-left: 10px;
+        span:last-child {
+          float: right;
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }
 </style>
