@@ -4,10 +4,15 @@
     <el-row class="Hotel_filtrate">
       <el-form :model="form">
         <!-- 选择城市 -->
-        <el-form-item class="hotel_inquire">
-          <el-input v-model="form.hotelCity"></el-input>
+        <el-form-item class="hotel_inquire" >
+          <el-autocomplete
+            v-model="form.hotelCity"
+            :fetch-suggestions="queryDepartSearch"
+            @select="handleSelect"
+            placeholder="请输入内容"
+          ></el-autocomplete>
         </el-form-item>
-          <!-- 入住时间 -->
+        <!-- 入住时间 -->
         <el-form-item class="hotel_Date">
           <el-date-picker
             v-model="form.hoteldate"
@@ -33,7 +38,12 @@
             <span>每间</span>
           </el-col>
           <el-col :span="16">
-            <el-select size="mini" v-model="form.adult" placeholder class="hotel_select hotel_select_adult">
+            <el-select
+              size="mini"
+              v-model="form.adult"
+              placeholder
+              class="hotel_select hotel_select_adult"
+            >
               <el-option
                 v-for="item in housingData"
                 :key="item.adult"
@@ -41,7 +51,11 @@
                 :value="item.adult"
               ></el-option>
             </el-select>
-            <el-select size="mini" v-model="form.children" class="hotel_select hotel_select_children">
+            <el-select
+              size="mini"
+              v-model="form.children"
+              class="hotel_select hotel_select_children"
+            >
               <el-option
                 v-for="item in housingData"
                 :key="item.children"
@@ -55,7 +69,7 @@
           </el-row>
         </el-row>
         <!-- 查看酒店按钮 -->
-        <el-button type="primary" round>查看价格</el-button>
+        <el-button type="primary" round @click="chooseCity">查看价格</el-button>
       </el-form>
     </el-row>
   </div>
@@ -74,6 +88,7 @@ export default {
         { adult: 6, children: 6 }
       ],
       form: {
+        id:0,
         hotelCity: "南京市", // 查询城市
         hoteldate: "", //住房时间
         number: "", // 住房人数
@@ -85,8 +100,42 @@ export default {
   },
   mounted() {},
   methods: {
-    // 住房选择时触发
-    handleSelect() {},
+    // 选择城市时触发筛选
+    chooseCity(){
+      const {id} = this.form
+      this.$router.push({ path: 'hotel', query: { city:id }})
+    },
+    // 选择城市时触发
+    handleSelect(item){
+      // console.log(item);
+      this.form.hotelCity = item.name
+      this.form.id = item.id
+    },
+    //搜索建议
+      // value 是选中的值，cb是回调函数，接收要展示的列表
+       async queryDepartSearch(value, cb){
+         const res = await this.findCity(value)
+         cb(res)
+        },
+        findCity(queryString){
+          return new Promise((revoled,reject)=>{
+            if(queryString.length == 0){
+              revoled([])
+              return
+            }
+            this.$axios({
+               url:'/airs/city',
+               params:{name:queryString}
+           }).then(res=>{
+               const {data} = res.data
+              const newData = data.map(v=>{
+                   v.value = v.name.replace("市",""); 
+                   return v
+               })
+               revoled(data)
+           })
+          })
+        },
     // 下拉菜单返回的数据
     // 显示选择框
     chooseHousing() {
@@ -150,8 +199,8 @@ export default {
     height: 20px;
     position: relative;
   }
-  .hotel_select_adult{
-     &::after {
+  .hotel_select_adult {
+    &::after {
       position: absolute;
       top: 5px;
       left: 30px;
@@ -159,8 +208,8 @@ export default {
       content: "成人";
     }
   }
-   .hotel_select_children{
-     &::after {
+  .hotel_select_children {
+    &::after {
       position: absolute;
       top: 5px;
       left: 30px;

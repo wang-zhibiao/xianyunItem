@@ -126,10 +126,10 @@ export default {
 
   .rows {
     position: absolute;
-    left: 252px;
+    left: 250px;
     width: 350px;
-    height: 38px;
-    line-height: 38px;
+    height: 36px;
+    line-height: 36px;
     z-index: 9;
     .back {
       background-color: #fff;
