@@ -25,7 +25,7 @@
     <el-row>
       <el-col :span="24" class="firstSpan">
           <span>品牌信息</span>
-          <span>{{data.hotelbrand.name}}</span>
+          <span>{{data.hotelbrand ? data.hotelbrand.name : ''}}</span>
       </el-col>
     </el-row>
   </div>
