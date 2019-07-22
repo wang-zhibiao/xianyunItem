@@ -2,7 +2,7 @@
   <div class="HotelList">
     <el-row type="flex" justify="space-between" class="List_content" v-for="(item,index) in data" :key="index">
       <el-col :span="8" style="padding-left: 10px; padding-right: 10px;">
-        <nuxt-link to="#">
+        <nuxt-link :to="`/hotel/detail?id=${item.id}`">
           <img
             data-v-0a769ebc
             :src="item.photos"
@@ -14,7 +14,7 @@
       </el-col>
       <el-col :span="10" style="padding:0 15px;">
         <h4>
-          <nuxt-link to="#">{{item.name}}</nuxt-link>
+          <nuxt-link :to="`/hotel/detail?id=${item.id}`">{{item.name}}</nuxt-link>
         </h4>
         <el-col style="padding:5px 0;">
           <span>{{item.alias}}</span>

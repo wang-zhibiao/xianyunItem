@@ -36,7 +36,7 @@
                 :placeholder="options[currentOption].placeholder" 
                 v-model="searchValue"
                    />
-                    <i class="el-icon-search"></i>
+                    <i class="el-icon-search" @click="skip"></i>
                 </el-row>
             </div>
         </div>
@@ -86,6 +86,15 @@ export default {
     // 改变当前页
     currrnt(index){
       this.currentOption = index
+    },
+    //跳转到
+    skip(){
+     console.log( this.options[this.currentOption].pageUrl);
+     if(this.searchValue>0){
+       this.$router.push(this.options[this.currentOption].pageUrl+this.searchValue)
+     }else{
+       this.$message.warning("请输入需要搜索的城市")
+     }
     }
   }
 };
