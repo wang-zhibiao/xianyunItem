@@ -107,7 +107,7 @@
 export default {
   data() {
     return {
-      activeName: "first",
+      activeName: "first"
     };
   },
   methods: {
@@ -119,7 +119,6 @@ export default {
     //     center: [118.727567,32.134053],
     //     viewMode: "3D"
     //   });
-    
     //   var marker1 = new AMap.Marker({
     //     position: new AMap.LngLat(118.727567,32.134053),
     //     title: "南京市"
@@ -160,7 +159,6 @@ export default {
     //     position: new AMap.LngLat(118.7311,32.126738),
     //     title: "南京市"
     //   });
-
     //   map.add([marker1, marker2,marker3,marker4,marker5,marker6,marker7,marker8,marker9,marker10]);
     // };
     // }
@@ -169,52 +167,73 @@ export default {
     window.onLoad = function() {
       var map = new AMap.Map("container", {
         zoom: 10,
-        center: [118.744305,32.113205],
+        center: [118.744305, 32.113205],
         viewMode: "3D"
       });
-    
+
       var marker1 = new AMap.Marker({
-        position: new AMap.LngLat(118.744305,32.113205),
+        content: `<div style="text-align:center;" class="ico-marker" >1</div>`,
+        position: new AMap.LngLat(118.744305, 32.113205),
         title: "南京市"
       });
       var marker2 = new AMap.Marker({
-        position: new AMap.LngLat(118.719705,32.102135),
+        content: `<div style="text-align:center;" class="ico-marker" >2</div>`,
+        position: new AMap.LngLat(118.719705, 32.102135),
         title: "南京市"
       });
       var marker3 = new AMap.Marker({
-        position: new AMap.LngLat(118.777542,32.110191),
+        content: `<div style="text-align:center;" class="ico-marker" >3</div>`,
+        position: new AMap.LngLat(118.777542, 32.110191),
         title: "南京市"
       });
       var marker4 = new AMap.Marker({
-        position: new AMap.LngLat(118.747858,32.094408),
+        content: `<div style="text-align:center;" class="ico-marker" >4</div>`,
+        position: new AMap.LngLat(118.747858, 32.094408),
         title: "南京市"
       });
       var marker5 = new AMap.Marker({
-        position: new AMap.LngLat(118.797403,32.044221),
+        content: `<div style="text-align:center;" class="ico-marker" >5</div>`,
+        position: new AMap.LngLat(118.797403, 32.044221),
         title: "南京市"
       });
       var marker6 = new AMap.Marker({
-        position: new AMap.LngLat(118.788803,32.020734),
+        content: `<div style="text-align:center;" class="ico-marker" >6</div>`,
+        position: new AMap.LngLat(118.788803, 32.020734),
         title: "南京市"
       });
       var marker7 = new AMap.Marker({
-        position: new AMap.LngLat(118.753409,32.066873),
+        content: `<div style="text-align:center;" class="ico-marker" >7</div>`,
+        position: new AMap.LngLat(118.753409, 32.066873),
         title: "南京市"
       });
       var marker8 = new AMap.Marker({
-        position: new AMap.LngLat(118.663018,32.124457),
+        content: `<div style="text-align:center;" class="ico-marker" >8</div>`,
+        position: new AMap.LngLat(118.663018, 32.124457),
         title: "南京市"
       });
       var marker9 = new AMap.Marker({
-        position: new AMap.LngLat(118.734252,32.113368),
+        content: `<div style="text-align:center;" class="ico-marker" >9</div>`,
+        position: new AMap.LngLat(118.734252, 32.113368),
         title: "南京市"
       });
       var marker10 = new AMap.Marker({
-        position: new AMap.LngLat(118.731988,32.121259),
+        content: `<div style="text-align:center;" class="ico-marker" >10</div>`,
+        position: new AMap.LngLat(118.731988, 32.121259),
         title: "南京市"
       });
 
-      map.add([marker1, marker2,marker3,marker4,marker5,marker6,marker7,marker8,marker9,marker10]);
+      map.add([
+        marker1,
+        marker2,
+        marker3,
+        marker4,
+        marker5,
+        marker6,
+        marker7,
+        marker8,
+        marker9,
+        marker10
+      ]);
     };
     var key = "6f77904e52b38763ef2be9550d25b73e";
     var url = `https://webapi.amap.com/maps?v=1.4.15&key=${key}&callback=onLoad`;
@@ -262,6 +281,19 @@ export default {
           margin-right: 10px;
         }
       }
+    }
+  }
+ 
+  /deep/.ico-marker {
+    display: block;
+      width: 19px;
+      height: 33px;
+    background: url('https://webapi.amap.com/theme/v1.3/markers/b/mark_bs.png') no-repeat;
+    background-size: contain;
+     &::before {
+      
+      color: #ff3366;
+      transform: scale(2);
     }
   }
 }
