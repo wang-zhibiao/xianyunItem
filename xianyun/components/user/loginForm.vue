@@ -6,7 +6,7 @@
     </el-form-item>
 
     <el-form-item class="form-item" prop="password">
-      <el-input v-model="form.password" placeholder="密码" type="password" @keydown.enter.native="handleLoginSubmit"></el-input>
+      <el-input v-model="form.password" placeholder="密码" type="password" @keydown.enter="handleLoginSubmit"></el-input>
     </el-form-item>
 
     <p class="form-text">
