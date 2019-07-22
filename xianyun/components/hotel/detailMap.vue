@@ -108,32 +108,113 @@ export default {
   data() {
     return {
       activeName: "first",
-      count: 0
     };
   },
   methods: {
-    load() {
-      this.count += 2;
-    }
+    // changeMap() {
+    //   console.log(123)
+    //    window.onLoad = function() {
+    //     var map = new AMap.Map("container", {
+    //     zoom: 13,
+    //     center: [118.727567,32.134053],
+    //     viewMode: "3D"
+    //   });
+    
+    //   var marker1 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.727567,32.134053),
+    //     title: "南京市"
+    //   });
+    //   var marker2 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.742089,32.131673),
+    //     title: "南京市"
+    //   });
+    //   var marker3 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.730225,32.130058),
+    //     title: "南京市"
+    //   });
+    //   var marker4 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.730805,32.13136),
+    //     title: "南京市"
+    //   });
+    //   var marker5 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.731491,32.128178),
+    //     title: "南京市"
+    //   });
+    //   var marker6 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.733887,32.127632),
+    //     title: "南京市"
+    //   });
+    //   var marker7 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.730995,32.125832),
+    //     title: "南京市"
+    //   });
+    //   var marker8 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.731895,32.123753),
+    //     title: "南京市"
+    //   });
+    //   var marker9 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.718323,32.11877),
+    //     title: "南京市"
+    //   });
+    //   var marker10 = new AMap.Marker({
+    //     position: new AMap.LngLat(118.7311,32.126738),
+    //     title: "南京市"
+    //   });
+
+    //   map.add([marker1, marker2,marker3,marker4,marker5,marker6,marker7,marker8,marker9,marker10]);
+    // };
+    // }
   },
   mounted() {
     window.onLoad = function() {
       var map = new AMap.Map("container", {
-        zoom: 13,
-        center: [118.8718107, 31.32846821],
+        zoom: 10,
+        center: [118.744305,32.113205],
         viewMode: "3D"
       });
-
+    
       var marker1 = new AMap.Marker({
-        position: new AMap.LngLat(118.868838, 31.319002),
-        title: "北京"
+        position: new AMap.LngLat(118.744305,32.113205),
+        title: "南京市"
       });
       var marker2 = new AMap.Marker({
-        position: new AMap.LngLat(118.870436, 31.329013),
-        title: "北京"
+        position: new AMap.LngLat(118.719705,32.102135),
+        title: "南京市"
+      });
+      var marker3 = new AMap.Marker({
+        position: new AMap.LngLat(118.777542,32.110191),
+        title: "南京市"
+      });
+      var marker4 = new AMap.Marker({
+        position: new AMap.LngLat(118.747858,32.094408),
+        title: "南京市"
+      });
+      var marker5 = new AMap.Marker({
+        position: new AMap.LngLat(118.797403,32.044221),
+        title: "南京市"
+      });
+      var marker6 = new AMap.Marker({
+        position: new AMap.LngLat(118.788803,32.020734),
+        title: "南京市"
+      });
+      var marker7 = new AMap.Marker({
+        position: new AMap.LngLat(118.753409,32.066873),
+        title: "南京市"
+      });
+      var marker8 = new AMap.Marker({
+        position: new AMap.LngLat(118.663018,32.124457),
+        title: "南京市"
+      });
+      var marker9 = new AMap.Marker({
+        position: new AMap.LngLat(118.734252,32.113368),
+        title: "南京市"
+      });
+      var marker10 = new AMap.Marker({
+        position: new AMap.LngLat(118.731988,32.121259),
+        title: "南京市"
       });
 
-      map.add([marker1, marker2]);
+      map.add([marker1, marker2,marker3,marker4,marker5,marker6,marker7,marker8,marker9,marker10]);
     };
     var key = "6f77904e52b38763ef2be9550d25b73e";
     var url = `https://webapi.amap.com/maps?v=1.4.15&key=${key}&callback=onLoad`;
