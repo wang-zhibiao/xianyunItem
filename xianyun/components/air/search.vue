@@ -157,7 +157,6 @@ export default {
 
         // 提交表单是触发
         handleSubmit(){
-           console.log(this.form);
            let vilde = true;
            const rules = [
              {
@@ -186,6 +185,11 @@ export default {
             path:'/air/flights',
             query:this.form
           })
+          // 提交表单时存储数据到本地
+         let arr = JSON.parse(localStorage.getItem('air') || `[]`)
+         arr.unshift(this.form)
+         console.log(arr);
+         localStorage.setItem('air',JSON.stringify(arr));
         }
     },
     mounted() {

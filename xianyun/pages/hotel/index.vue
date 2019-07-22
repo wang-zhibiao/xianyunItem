@@ -1,26 +1,141 @@
 <template>
-    <div class="post">
-        <el-row type="flex" class="post_content" justify="space-between" align="middle">
-        <el-col class="menus-wrapper" :span="7"></el-col>
-        <el-col class="post-wrapper" :span="17"></el-col>
-        </el-row>
-    </div>
+  <div class="hotel">
+    <el-row type="flex" class="hotel_content">
+      <!-- 面包屑 -->
+      <el-row class="Hotel_crumbs">
+        <el-breadcrumb separator>
+          <el-breadcrumb-item style="width:54px">
+            酒店
+            <i class="el-icon-arrow-right" style="margin-left:5px"></i>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>南京市酒店预定</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-row>
+      <!-- 筛选查询酒店 -->
+      <HotelFiltrate />
+      <el-col :span="14" class="Hotel_strategy">
+        <!-- 区域详情 -->
+        <HotelStrategy :name="backCity"/>
+      </el-col>
+      <!-- 地图 -->
+      <el-col :span="10" class="Hotel_map" >
+        <hotelMap :MapData="location"/>
+      </el-col>
+      <!-- 酒店分类筛选 -->
+      <Hotelclassify />
+      <!-- 酒店列表页面 -->
+      <HotelList :data="HotelList" />
+      <!-- 分页器 -->
+      <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="hotel.start"
+      :page-size="hotel.limit"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+      style="padding-left:400px">
+    </el-pagination>
+    </el-row>
+  </div>
 </template>
 <script>
+//引入插件
+import HotelFiltrate from "@/components/hotel/HotelFiltrate";
+import HotelStrategy from "@/components/hotel/HotelStrategy";
+import hotelMap from "@/components/hotel/hotelMap";
+import Hotelclassify from "@/components/hotel/Hotelclassify";
+import HotelList from "@/components/hotel/HotelList";
+
 export default {
-}
+  data() {
+    return {
+      total:0,
+      //地图的数据
+      location:[],
+      //存储列表数据
+      HotelList: [],
+      //返回的城市数据
+      backCity:{},
+      hotel: {
+        id: 1,
+        city: 74,
+        price_in: 99,
+        scenic: 1,
+        name_contains: "",
+        hotellevel: 1,
+        hoteltype: 1,
+        hotelbrand: 1,
+        hotelasset: 1,
+        enterTime: "2019-7-29",
+        leftTime: "2019-8-02",
+        person: 2,
+        limit: 10,
+        start: 1
+      }
+    };
+  },
+  components: {
+    HotelFiltrate,
+    HotelStrategy,
+    hotelMap,
+    Hotelclassify,
+    HotelList
+  },
+  mounted() {
+    this.getHotelList();
+  },
+  watch: {
+    $route(){
+      const {city} = this.$route.query
+      this.hotel.city = city
+      this.getHotelList();
+    }
+  },
+  methods: {
+    //分页请求数据
+    // 列表数据条数
+    handleSizeChange(val){
+      
+    },
+    //当前页
+    handleCurrentChange(val){
+      this.hotel.start = val
+      this.getHotelList()
+    },
+    //获取酒店列表数据
+    getHotelList() {
+      const { id, city, enterTime, leftTime, limit, start } = this.hotel;
+      this.$axios({
+        baseURL: "http://157.122.54.189:9095",
+        url: "/hotels",
+        params: {
+          city,
+          enterTime,
+          leftTime,
+          _limit: limit,
+          _start: start
+        }
+      }).then(res => {
+        // console.log(res);
+        this.HotelList = res.data.data;
+        this.location = res.data.data;
+        this.total = res.data.total
+        this.backCity = res.data.data[0].city.name
+        // console.log(this.location);
+      });
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
-.post_content{
-    width: 1000px;
-    background: #000;
-    .menus-wrapper{
-        width: 260px;
-    background: #fff;
-    }
-    .post-wrapper{
-        width: 700px;
-        background: red;
-    }
+.hotel {
+  width: 1000px;
+  margin: 0 auto;
+  .hotel_content {
+    flex-wrap: wrap;
+  }
+  .Hotel_crumbs {
+    padding: 20px 0;
+  }
 }
 </style>

@@ -11,14 +11,14 @@
           <el-row type="flex" justify="space-between" class="flight-info-center">
             <el-col :span="8" class="flight-airport">
               <strong>{{data.dep_time}}</strong>
-              <span>{{data.dst_airport_name}}{{data.dst_airport_quay}}</span>
+              <span>{{data.org_airport_name}}{{data.org_airport_quay}}</span>
             </el-col>
             <el-col :span="8" class="flight-time">
               <span>{{rankTime}}</span>
             </el-col>
             <el-col :span="8" class="flight-airport">
               <strong>{{data.arr_time}}</strong>
-              <span>{{data.org_airport_name}}{{data.org_airport_quay}}</span>
+              <span>{{data.dst_airport_name}}{{data.dst_airport_quay}}</span>
             </el-col>
           </el-row>
         </el-col>
@@ -45,7 +45,7 @@
             </el-col>
             <el-col :span="5" class="price">￥{{item.org_settle_price}}</el-col>
             <el-col :span="3" class="choose-button">
-              <el-button type="warning" size="mini">选定</el-button>
+              <el-button type="warning" size="mini" @click="handlechoose(data.id,item.seat_xid)">选定</el-button>
               <p>剩余：{{item.discount}}</p>
             </el-col>
           </el-row>
@@ -69,16 +69,26 @@ export default {
           const end = this.data.arr_time.split(':')
           //算出相差的分钟
           //注意跨日
-          if(end[0]<start[0]){
-              end[0]/1+24;
+          if(+end[0]<+start[0]){
+              end[0]+=24;
           }
-          const min = (end[0]*60 + end[1]*1) - (start[0]*60 + start[1]*1)
+          const min = (+end[0]*60 + +end[1]*1) - (+start[0]*60 + +start[1]*1)
           // 算出间隔时间，注意隐式转化
           const hours = Math.floor(min/60);
           //算出分钟 求模
           const fen = min%60;
           return `${hours}时${fen}分钟`
       }  
+    },
+    methods: {
+      handlechoose(id,xid){
+        this.$router.push({
+          path:'/air/order',
+          query:{
+            id,xid
+          }
+        })
+      }
     },
   props: {
     //子组件的传值

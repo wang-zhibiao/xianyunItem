@@ -4,7 +4,7 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <FlightsFilters />
+        <FlightsFilters :data="FiltersData" @changFilters="changFilters"/>
 
         <!-- 航班头部布局 -->
         <FlightsListHead />
@@ -34,6 +34,7 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <!-- 侧边栏组件 -->
+        <FlightsAside/>
       </div>
       
     </el-row>
@@ -44,11 +45,23 @@
 import FlightsListHead from "@/components/air/flightsListHead";
 import FlightsItem from "@/components/air/flightsItem";
 import FlightsFilters from "@/components/air/flightsFilters";
-
+import FlightsAside from "@/components/air/flightsAside";
 export default {
   data() {
     return {
+      //机票的数据
       ListData: [],
+      // 帅选的数据
+      FiltersData:{
+        info:{},
+        options:{}
+      },
+      // 缓存的数据
+      cacheFlightsData:{
+        flights: [],
+        info:{},
+        options:{}
+      },
       flightsData:{
           pageIndex:1,
           pageSize:5,
@@ -56,10 +69,18 @@ export default {
       },
     };
   },
+  // 监听路由的变化
+  watch: {
+    $route(){
+      this.getListData()
+    }
+  },
+  //组件注册
   components: {
     FlightsListHead,
     FlightsItem,
-    FlightsFilters
+    FlightsFilters,
+    FlightsAside
   },
   mounted() {
     this.getListData();
@@ -72,18 +93,26 @@ export default {
       }
   },
   methods: {
+    // 子组件的传值监听
+    changFilters(arr){
+     this.ListData = arr;
+     this.flightsData.total = arr.length;
+    },
       //请求列表数据
     getListData() {
       this.$axios({
         url: "/airs",
         params: this.$route.query
       }).then(res => {
-        // console.log(res);
+        console.log(res);
         this.flightsData.total = res.data.total;
         this.ListData = res.data.flights;
+        this.FiltersData = res.data;
+        this.cacheFlightsData = {...res.data}
          // this.getNewListData()
       });
     },
+    // 传递给子组件的的数据 需要不被改变
     //页面数量
     handleSizeChange(value){
         this.flightsData.pageSize = value;
