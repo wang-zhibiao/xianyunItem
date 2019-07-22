@@ -17,6 +17,9 @@
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
+    "quill": "^1.3.6",
+    "vue-quill-editor": "^3.0.6",
+    "vue-word-editor": "0.0.1",
     "qrcode": "^1.4.1",
     "vuex-persistedstate": "^2.5.4"
   },
