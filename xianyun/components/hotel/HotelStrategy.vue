@@ -100,7 +100,7 @@ export default {
             }).then(res=>{
                 // console.log(res);
                 this.strategy = res.data.data[0].scenics
-                console.log(this.strategy);
+                // console.log(this.strategy);
             })
            },2000)
         }

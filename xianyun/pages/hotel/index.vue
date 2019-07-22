@@ -15,26 +15,26 @@
       <HotelFiltrate />
       <el-col :span="14" class="Hotel_strategy">
         <!-- 区域详情 -->
-        <HotelStrategy :name="backCity"/>
+        <HotelStrategy :name="backCity" />
       </el-col>
       <!-- 地图 -->
-      <el-col :span="10" class="Hotel_map" >
-        <hotelMap :MapData="location"/>
+      <el-col :span="10" class="Hotel_map">
+        <hotelMap :MapData="location" />
       </el-col>
       <!-- 酒店分类筛选 -->
-      <Hotelclassify />
+      <Hotelclassify @changeDatalist="changeDatalist" />
       <!-- 酒店列表页面 -->
       <HotelList :data="HotelList" />
       <!-- 分页器 -->
       <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="hotel.start"
-      :page-size="hotel.limit"
-      layout="total, prev, pager, next, jumper"
-      :total="total"
-      style="padding-left:400px">
-    </el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="hotel.start"
+        :page-size="hotel.limit"
+        layout="total, prev, pager, next, jumper"
+        :total="total"
+        style="padding-left:400px"
+      ></el-pagination>
     </el-row>
   </div>
 </template>
@@ -54,7 +54,10 @@ export default {
       location:[],
       //存储列表数据
       HotelList: [],
+      //缓存列表数据
+      rantList:[],
       //返回的城市数据
+      changeData:3,
       backCity:{},
       hotel: {
         id: 1,
@@ -62,7 +65,6 @@ export default {
         price_in: 99,
         scenic: 3227,
         name_contains: "",
-        hotellevel: 1,
         hoteltype: 1,
         hotelbrand: 1,
         hotelasset: 1,
@@ -93,6 +95,25 @@ export default {
     }
   },
   methods: {
+    //监听请求的分类数据
+    changeDatalist(classify){
+    //  const {changePrice,
+    //     changeLevels,
+    //     changeTypes,
+    //     changeAssets,
+    //     changeBrands} = classify
+    if(classify<10){
+      this.changeData= classify
+      this.getHotelList()
+      console.log(this.HotelList);
+    }else{
+      console.log(classify);
+      const arr = this.rantList.filter(v=>{
+         return v.price <= classify
+      })
+      this.HotelList = arr;
+    }
+    },
     //分页请求数据
     // 列表数据条数
     handleSizeChange(val){
@@ -105,7 +126,7 @@ export default {
     },
     //获取酒店列表数据
     getHotelList() {
-      const { id, city, enterTime, leftTime, limit, start,scenic } = this.hotel;
+      const { id, city, enterTime, leftTime, limit, start,scenic,hotellevel } = this.hotel;
       this.$axios({
         baseURL: "http://157.122.54.189:9095",
         url: "/hotels",
@@ -114,13 +135,15 @@ export default {
           enterTime,
           leftTime,
           scenic,
+          hotellevel,
           _limit: limit,
           _start: start,
-          
+          hotellevel:this.changeData
         }
       }).then(res => {
         // console.log(res);
         this.HotelList = res.data.data;
+        this.rantList = [...res.data.data];
         this.location = res.data.data;
         this.total = res.data.total
         this.backCity = res.data.data[0].city.name

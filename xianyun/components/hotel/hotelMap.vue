@@ -22,7 +22,6 @@ export default {
       map: null,
       markers: null,
       infoWindow: null,
-      markerList: [],
       center: [118.796623, 32.059352]
     };
   },
@@ -49,7 +48,7 @@ export default {
       //重新设置地图中心点
       this.center = [location.longitude,location.latitude]
       this.map = new AMap.Map("hotelMap", {
-        zoom: 11, //级别
+        zoom: 10, //级别
         center: this.center, //中心点坐标
         viewMode: "3D" //使用3D视图
       });
