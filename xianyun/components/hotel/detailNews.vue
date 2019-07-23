@@ -22,13 +22,14 @@
     <el-row>
       <el-col :span="24" class="firstSpan">
         <span>停车服务</span>
+        <span>-</span>
       </el-col>
     </el-row>
 
     <el-row>
       <el-col :span="24" class="firstSpan">
         <span>品牌信息</span>
-        <span>{{data.hotelbrand ? data.hotelbrand.name : ''}}</span>
+        <span>{{data.hotelbrand ? data.hotelbrand.name : '-'}}</span>
       </el-col>
     </el-row>
   </div>
