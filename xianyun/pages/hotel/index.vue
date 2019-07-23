@@ -59,7 +59,7 @@ export default {
       //缓存列表数据
       rantList:[],
       //返回的城市数据
-      changeData:4,
+      changeData:5,
       backCity:{},
       hotel: {
         id: 1,
