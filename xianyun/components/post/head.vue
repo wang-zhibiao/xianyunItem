@@ -25,11 +25,9 @@
         <el-col class="strategy-text" :span="4">推荐攻略</el-col>
         <el-col style="flex:1"></el-col>
         <el-col class="writeBtn" :span="4">
-          <nuxt-link to="/post/create">
-            <el-button type="primary" icon="el-icon-edit">
+            <el-button type="primary" icon="el-icon-edit" @click="$router.push('/post/create')">
               <nuxt-link to="/post/create">写游记</nuxt-link>
             </el-button>
-          </nuxt-link>
         </el-col>
       </el-row>
     </header>
