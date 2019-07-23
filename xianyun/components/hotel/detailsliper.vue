@@ -1,7 +1,7 @@
 <template>
   <div class="slideshow clearfix">
     <div class="col-bg">
-      <el-carousel :interval="3000" indicator-position="none" ref="carousel">
+      <el-carousel arrow="always" indicator-position="none" ref="carousel" :autoplay="false">
         <el-carousel-item v-for="(item,index) in imgList" :key="index" name="index">
           <img :src="item.idView" />
         </el-carousel-item>
