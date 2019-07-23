@@ -15,12 +15,12 @@
           </div>
         </el-row>
         <div class="cmt-ctrl">
-          <a href="javascript:;" @click="handleDiGui(data.id)">回复</a>
+          <a href="javascript:;" @click="handleChuanZhi(data)">回复</a>
         </div>
       </div>
     </div>
     <div>
-      <Item :data="data.parent" v-if="data.parent" />
+      <Item :data="data.parent" v-if="data.parent" @handleJieShou="handleChuanZhi"/>
     </div>
   </div>
 </template>
@@ -29,6 +29,10 @@ export default {
   name: "Item",
   props: ["data"],
   methods: {
+    handleChuanZhi(data){
+      // console.log(data);
+      this.$emit("handleJieShou", data)
+    },
     changeTime(created_at) {
       return this.$moment(created_at).format("YYYY-MM-DD HH:mm");
     },

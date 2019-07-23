@@ -70,7 +70,7 @@
         </el-row>
         <!-- 递归评论展示部分 -->
         <div class="cmt-list">
-          <div class="cmt-item" v-for="(item,index) in pinLunData" :key="index">
+          <div class="cmt-item" v-for="(item,index) in pinLunData" :key="index" style="padding: 10px;border: 1px dashed #ccc">
             <div class="cmt-info">
               <img :src="'http://157.122.54.189:9095' + item.account.defaultAvatar" />
               <em style="font-style:normal">{{item.account.nickname}}</em>
@@ -79,9 +79,10 @@
             </div>
             <div class="cmt-content">
               <DetailCmt
+                @handleJieShou="handleJieShou"
                 :data="item.parent"
                 v-if="item.parent!==undefined"
-                style="padding: 10px;border: 1px dashed #ccc"
+                style="padding: 10px;border: 1px dashed #ccc;background:rgb(241, 222, 222);"
               />
               <div class="cmt-new">
                 <p class="cmt-message">{{item.content}}</p>
@@ -164,10 +165,22 @@ export default {
       total: 0,
       pageIndex: 1,
       pinLunData: [],
-      dialogVisible: false
+      dialogVisible: false,
+      childrenList:{},
+      huifuId:0
     };
   },
   methods: {
+    // 接收子组件的方法
+    handleJieShou(obj){
+      console.log(111);
+      this.nickname = obj.account.nickname
+      this.dufaem = true
+      console.log(this.dufaem);
+      
+      this.childrenList = {...obj}
+    },
+
     // 封装获取文章详情的方法
     getList() {
       this.$axios({
@@ -212,6 +225,9 @@ export default {
     },
     // 回复
     handleDiGui(value) {
+      console.log(value);
+      
+      this.huifuId = value.id
       this.dufaem = true;
       this.nickname = value.account.nickname;
     },
@@ -234,6 +250,8 @@ export default {
     },
     // 提交评论
     handlePinLun() {
+      console.log(this.childrenList);
+      
       this.$axios({
         baseURL: "http://157.122.54.189:9095",
         url: "/comments",
@@ -241,7 +259,8 @@ export default {
         data: {
           content: this.textarea,
           post: this.dataList.id,
-          pics: this.pics
+          pics: this.pics,
+          follow:this.childrenList.account ? this.childrenList.account.id : this.huifuId
         },
         headers: {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
