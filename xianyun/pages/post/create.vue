@@ -167,7 +167,6 @@ export default {
           }
         }).then(res => {
           const { data } = res.data;
-          // console.log(res.data);
           const newData = data.map(v => {
             v.value = v.name.replace("市", "");
             return v;
@@ -259,7 +258,6 @@ export default {
                Authorization: `Bearer ${token || `NO TOKEN`}`
              }
            }).then(res=>{
-             console.log(res);
              if(res.data.message=="新增成功"){
                 this.$message({
                  message: "发布成功",
