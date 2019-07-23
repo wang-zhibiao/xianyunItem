@@ -102,22 +102,23 @@ export default {
         // 主题
         theme: "snow",
         uploadImage: {
-          url: "http://localhost:1337/upload",
+          // url: "http://localhost:1337/upload",
+          url: "http://157.122.54.189:9095/upload",
           name: "files",
           uploadBefore(file) {
             return true;
           },
           uploadProgress(res) {},
           uploadSuccess(res, insert) {
-            insert("http://localhost:1337" + res.data[0].url);
+            insert("http://157.122.54.189:9095" + res.data[0].url);
           },
           uploadError() {},
-          showProgress: false
+          showProgress: true
         },
 
         uploadVideo: {
-          //url: "http://157.122.54.189:9095/upload",
-          url: "http://localhost:1337/upload",
+          url: "http://157.122.54.189:9095/upload",
+          // url: "http://localhost:1337/upload",
           name: "files",
           uploadBefore(file) {
             return true;
@@ -265,7 +266,7 @@ export default {
                  type: "success"
               })
                 this.$router.push({
-                  path:'/post'
+                  path:'/post/detail'
                 })
              }
            })
