@@ -86,7 +86,7 @@ export default {
       insurances: [], // 保险数据
       contactName: "", // 联系人名字
       contactPhone: "", // 联系人电话
-      captcha: "000000", // 验证码
+      captcha: "", // 验证码
       invoice: false // 发票
     };
   },
