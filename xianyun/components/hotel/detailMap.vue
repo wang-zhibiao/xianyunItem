@@ -69,7 +69,7 @@
     </el-row>
      <script
       type="text/javascript"
-      src="https://webapi.amap.com/maps?v=1.4.15&key=d67b45d503ac4dac45d41b907bc974db"
+      src="https://webapi.amap.com/maps?v=1.4.15&key=da06fea2dc3561e40e303fd48e522ac9"
     ></script>
   </div>
 </template>
@@ -149,7 +149,8 @@ export default {
         output:'json',
         page:1,
         offset:10,
-        key:'79041dfa1c752f49599e2b507c64da42'
+        key:'da06fea2dc3561e40e303fd48e522ac9'
+        // key:'79041dfa1c752f49599e2b507c64da42'
       }
     }).then(res=>{
       this.sceneryMapdata = res.data.pois
