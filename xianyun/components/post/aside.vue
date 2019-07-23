@@ -67,11 +67,8 @@ export default {
 
       const arr = [];
       this.cityList.forEach(e => {
-        this.arr.push(e.children);
-        //  console.log(this.arr[0])
-        //  this.hotList = arr[0]
-      });
-      // console.log(this.hotList)
+        this.arr.push(e.children);     
+      });    
     });
   }
 };

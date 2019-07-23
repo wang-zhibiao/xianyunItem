@@ -77,7 +77,6 @@ export default {
           Authorization: `Bearer ${token}`
         }
       }).then(res => {
-        console.log(res);
         const { payInfo, price } = res.data;
         this.payInfo = payInfo;
         this.price = price;
@@ -87,7 +86,6 @@ export default {
 
          this.timer = setInterval(async () => {
                     const isResolve = await this.isPay(payInfo);
-                    console.log(isResolve)
                     if(isResolve){
                         clearInterval(this.timer)
                         return;

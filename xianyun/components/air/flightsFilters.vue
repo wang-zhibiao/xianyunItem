@@ -93,7 +93,6 @@ export default {
              const arr = this.data.flights.filter(v =>{
                 return v.org_airport_name === value
             })
-            console.log(111);
             this.$emit('changFilters',arr)
         },
 
@@ -106,7 +105,6 @@ export default {
                  // 注意只要判断为true就返回这条数据 ,注意隐式转换 和 字符串的比较是通过字符表
                  return +dep >= +start && +dep < +end   
             })
-            console.log(111);
             this.$emit('changFilters',arr)
         },
 
@@ -115,7 +113,6 @@ export default {
              const arr = this.data.flights.filter(v =>{
                 return v.airline_name === value
             })
-            console.log(111);
             this.$emit('changFilters',arr)
         },
 
@@ -124,7 +121,6 @@ export default {
              const arr = this.data.flights.filter(v =>{
                 return v.plane_size === value
             })
-            console.log(111);
             this.$emit('changFilters',arr)
         },
         

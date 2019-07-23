@@ -9,7 +9,7 @@
       </el-breadcrumb>
       <h1>{{dataList.title}}</h1>
       <div class="post-info">
-        <span>攻略：{{dataList.city.created_at}}</span>
+        <span>攻略：{{$moment(dataList.created_at).format("YYYY-MM-DD HH:mm:ss")}}</span>
         <span>阅读：{{dataList.watch}}</span>
       </div>
       <!-- 内容展示部分 -->
@@ -28,9 +28,9 @@
             <i class="iconfont iconfenxiang"></i>
             <p>分享</p>
           </div>
-          <div class="ctrl-item">
+          <div class="ctrl-item" @click="handleDianZan(dataList.id)">
             <i class="iconfont iconding"></i>
-            <p @click="handleDianZan(dataList.account.id)">点赞({{dataList.like}})</p>
+            <p >点赞({{dataList.like}})</p>
           </div>
         </el-row>
       </div>
@@ -69,9 +69,8 @@
           </div>
         </el-row>
         <!-- 递归评论展示部分 -->
-
-        <div class="cmt-list" v-for="(item,index) in pinLunData" :key="index">
-          <div class="cmt-item">
+        <div class="cmt-list">
+          <div class="cmt-item" v-for="(item,index) in pinLunData" :key="index" style="padding: 10px;border: 1px dashed #ccc">
             <div class="cmt-info">
               <img :src="'http://157.122.54.189:9095' + item.account.defaultAvatar" />
               <em style="font-style:normal">{{item.account.nickname}}</em>
@@ -79,14 +78,27 @@
               <span>{{item.level}}</span>
             </div>
             <div class="cmt-content">
-              <p class="cmt-message">{{item.content}}</p>
-              <el-row type="flex">
-                <div class="cmt-pic" v-if="item.pics.length>0">
-                  <img :src="'http://157.122.54.189:9095' + item.pics[0].url " />
+              <DetailCmt
+                @handleJieShou="handleJieShou"
+                :data="item.parent"
+                v-if="item.parent!==undefined"
+                style="padding: 10px;border: 1px dashed #ccc;background:rgb(241, 222, 222);"
+              />
+              <div class="cmt-new">
+                <p class="cmt-message">{{item.content}}</p>
+                <el-row type="flex">
+                  <div
+                    class="cmt-pic"
+                    v-for="(value,index) in item.pics"
+                    :key="index"
+                    v-show="item.pics.length>0"
+                  >
+                    <img :src="'http://157.122.54.189:9095' + value.url " />
+                  </div>
+                </el-row>
+                <div class="cmt-ctrl">
+                  <a href="javascript:;" @click="handleDiGui(item)">回复</a>
                 </div>
-              </el-row>
-              <div class="cmt-ctrl">
-                <a href="javascript:;" @click="handleDiGui(item)">回复</a>
               </div>
             </div>
           </div>
@@ -153,10 +165,20 @@ export default {
       total: 0,
       pageIndex: 1,
       pinLunData: [],
-      dialogVisible: false
+      dialogVisible: false,
+      childrenList:{},
+      huifuId:0
     };
   },
   methods: {
+    // 接收子组件的方法
+    handleJieShou(obj){
+      this.nickname = obj.account.nickname
+      this.dufaem = true
+      
+      this.childrenList = {...obj}
+    },
+
     // 封装获取文章详情的方法
     getList() {
       this.$axios({
@@ -193,6 +215,7 @@ export default {
             type: "success",
             message: "点赞成功"
           });
+          this.getList()
         }
       });
     },
@@ -201,6 +224,7 @@ export default {
     },
     // 回复
     handleDiGui(value) {
+      this.huifuId = value.id
       this.dufaem = true;
       this.nickname = value.account.nickname;
     },
@@ -230,7 +254,8 @@ export default {
         data: {
           content: this.textarea,
           post: this.dataList.id,
-          pics: this.pics
+          pics: this.pics,
+          follow:this.childrenList.account ? this.childrenList.account.id : this.huifuId
         },
         headers: {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
