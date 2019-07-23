@@ -25,9 +25,11 @@
         <el-col class="strategy-text" :span="4">推荐攻略</el-col>
         <el-col style="flex:1"></el-col>
         <el-col class="writeBtn" :span="4">
-          <el-button type="primary" icon="el-icon-edit">
-            <nuxt-link to="/post/create">写游记</nuxt-link>
-          </el-button>
+          <nuxt-link to="/post/create">
+            <el-button type="primary" icon="el-icon-edit">
+              <nuxt-link to="/post/create">写游记</nuxt-link>
+            </el-button>
+          </nuxt-link>
         </el-col>
       </el-row>
     </header>
@@ -44,11 +46,11 @@ export default {
   },
   methods: {
     searchByCity() {
-        // 把搜索的内容传给main父组件
+      // 把搜索的内容传给main父组件
       this.$emit("searchByCity", this.searchText);
     },
     getDataByCity(item) {
-        // 把点击的城市名传给main父组件
+      // 把点击的城市名传给main父组件
       this.$emit("getDataByCity", item);
     }
   }

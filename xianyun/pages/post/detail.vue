@@ -18,7 +18,7 @@
         <el-row type="flex" justify="center">
           <div class="ctrl-item">
             <i class="iconfont iconpinglun"></i>
-            <p>评论(608)</p>
+            <p>评论({{total}})</p>
           </div>
           <div class="ctrl-item">
             <i class="iconfont iconstar1"></i>
@@ -30,25 +30,31 @@
           </div>
           <div class="ctrl-item">
             <i class="iconfont iconding"></i>
-            <p>点赞(53)</p>
+            <p @click="handleDianZan(dataList.account.id)">点赞({{dataList.like}})</p>
           </div>
         </el-row>
       </div>
       <!-- 提交评论部分 -->
       <div class="cmt-wrapper">
         <h4 class="cmt-title">评论</h4>
+        <!-- 回复 -->
+        <el-tag
+          closable
+          :disable-transitions="false"
+          @close="handleClose()"
+          v-if="dufaem"
+        >{{nickname}}</el-tag>
         <div class="cmt-input">
           <el-input type="textarea" placeholder="说点什么把..." v-model="textarea"></el-input>
         </div>
         <el-row class="cmt-input-ctrls" type="flex" justify="space-between">
           <div class="cmt-pics">
             <el-upload
-              action="http://127.0.0.1:1337/upload"
+              action="http://157.122.54.189:9095/upload"
               list-type="picture-card"
               :on-remove="handleRemove"
               :on-success="handleSuccess"
               :before-upload="handleBeforeUpload"
-              :on-preview="handlePictureCardPreview"
               name="files"
               ref="clear"
             >
@@ -63,33 +69,34 @@
           </div>
         </el-row>
         <!-- 递归评论展示部分 -->
+
         <div class="cmt-list" v-for="(item,index) in pinLunData" :key="index">
           <div class="cmt-item">
             <div class="cmt-info">
-              <img :src="$axios.defaults.baseURL + item.account.defaultAvatar" />
-              <i>2019-07-19 8:38</i>
-              <span>4</span>
+              <img :src="'http://157.122.54.189:9095' + item.account.defaultAvatar" />
+              <em style="font-style:normal">{{item.account.nickname}}</em>
+              <i>{{changeTime(item.created_at)}}</i>
+              <span>{{item.level}}</span>
             </div>
             <div class="cmt-content">
               <p class="cmt-message">{{item.content}}</p>
               <el-row type="flex">
-                <div class="cmt-pic">
-                  <img
-                    src="http://157.122.54.189:9095/uploads/c6eaca91e91c461898cf16ffad0f8cd6.gif"
-                  />
+                <div class="cmt-pic" v-if="item.pics.length>0">
+                  <img :src="'http://157.122.54.189:9095' + item.pics[0].url " />
                 </div>
               </el-row>
               <div class="cmt-ctrl">
-                <a href="javascript:;">回复</a>
+                <a href="javascript:;" @click="handleDiGui(item)">回复</a>
               </div>
             </div>
           </div>
         </div>
+
         <el-row type="flex" justify="center">
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="start"
+            :current-page="pageIndex"
             :page-sizes="[2, 4, 8, 10]"
             :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
@@ -118,10 +125,18 @@
   </el-row>
 </template>
 <script>
+import DetailCmt from "@/components/post/detalCmt.vue";
+import moment from "moment";
 export default {
+  components: {
+    DetailCmt
+  },
   data() {
     return {
+      dufaem: false,
+      nickname: "",
       dataList: {
+        account: {},
         city: {}
         // id: "" //文章ID
       },
@@ -131,14 +146,47 @@ export default {
       limit: 2,
       start: 0,
       total: 0,
+      pageIndex: 1,
       pinLunData: [],
       dialogVisible: false
     };
   },
   methods: {
+    changeTime(created_at) {
+      return this.$moment(created_at).format("YYYY-MM-DD HH:mm");
+    },
+    handleDianZan(id) {
+      // 点赞功能
+      this.$axios({
+        baseURL: "http://157.122.54.189:9095",
+        url: "/posts/like",
+        params: { id },
+        headers: {
+          Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+        }
+      }).then(res => {
+        // console.log(res);
+        if (res.status === 200) {
+          this.$message({
+            type: "success",
+            message: "点赞成功"
+          });
+        }
+      });
+    },
+    handleClose() {
+      this.dufaem = false;
+    },
+    // 回复
+    handleDiGui(value) {
+      console.log(value);
+      this.dufaem = true;
+      this.nickname = value.account.nickname;
+    },
     // 分页评论
     init() {
       this.$axios({
+        baseURL: "http://157.122.54.189:9095",
         url: "/posts/comments",
         params: {
           post: this.dataList.id,
@@ -150,12 +198,14 @@ export default {
         if (res.status === 200) {
           this.total = res.data.total;
           this.pinLunData = res.data.data;
+          console.log(this.pinLunData);
         }
       });
     },
     // 提交评论
     handlePinLun() {
       this.$axios({
+        baseURL: "http://157.122.54.189:9095",
         url: "/comments",
         method: "POST",
         data: {
@@ -175,6 +225,7 @@ export default {
           });
           this.textarea = "";
           this.$refs.clear.clearFiles();
+          this.init();
         }
       });
     },
@@ -191,39 +242,38 @@ export default {
     },
     // 上传成功的勾子
     handleSuccess(response) {
-      const imgs = { url: response[0].name };
-      this.pics.push(imgs);
-      console.log(response);
+      if (!response.length === 0) return;
+      this.pics.push(response[0]);
+      // console.log(response);
     },
 
     // 删除图片的勾子
     handleRemove(file) {
+      if (!file.response[0]) {
+        return;
+      }
       // console.log(file);
       this.pics.forEach((e, i) => {
-        if (e.name === file.response[0].name) {
+        if (e.id === file.response[0].id) {
           this.pics.splice(i, 1);
         }
       });
     },
-    handlePictureCardPreview(file) {
-      console.log(file);
-      this.pics = file.url;
-      this.dialogVisible = true;
-    },
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
       this.limit = val;
+      this.pageIndex = 1;
       this.init();
     },
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
-      this.start = val;
+      this.pageIndex = val;
+      this.start = (val - 1) * this.limit;
       this.init();
     }
   },
   mounted() {
     // 获取推荐文章
     this.$axios({
+      baseURL: "http://157.122.54.189:9095",
       url: "/posts/recommend",
       params: { id: this.dataList.id }
     }).then(res => {
@@ -238,6 +288,7 @@ export default {
 
     // 获取文章详情
     this.$axios({
+      baseURL: "http://157.122.54.189:9095",
       url: "/posts",
       params: this.$route.query
     }).then(res => {
@@ -318,6 +369,40 @@ export default {
     }
   }
 }
+.right {
+  width: 280px;
+  h4 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #999;
+  }
+  .recommend-list {
+    padding: 20px 0;
+    .post-img {
+      margin-right: 10px;
+      width: 100px;
+      height: 80px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .post-text {
+      font-size: 12px;
+      flex: 1;
+      position: relative;
+      div {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      span {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+    }
+  }
+}
 .cmt-list {
   .cmt-item {
     padding: 20px 20px 5px;
@@ -360,40 +445,6 @@ export default {
           text-decoration: none;
           color: inherit;
         }
-      }
-    }
-  }
-}
-.right {
-  width: 280px;
-  h4 {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #999;
-  }
-  .recommend-list {
-    padding: 20px 0;
-    .post-img {
-      margin-right: 10px;
-      width: 100px;
-      height: 80px;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .post-text {
-      font-size: 12px;
-      flex: 1;
-      position: relative;
-      div {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-      span {
-        position: absolute;
-        left: 0;
-        bottom: 0;
       }
     }
   }
