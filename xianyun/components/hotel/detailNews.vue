@@ -22,7 +22,7 @@
     <el-row>
       <el-col :span="24" class="firstSpan">
         <span>停车服务</span>
-        <span>-</span>
+        <span>{{data.parking ? data.parking : '-'}}</span>
       </el-col>
     </el-row>
 
