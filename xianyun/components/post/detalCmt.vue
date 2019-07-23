@@ -30,7 +30,6 @@ export default {
   props: ["data"],
   methods: {
     handleChuanZhi(data){
-      // console.log(data);
       this.$emit("handleJieShou", data)
     },
     changeTime(created_at) {

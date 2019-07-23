@@ -69,7 +69,7 @@
     </el-row>
      <script
       type="text/javascript"
-      src="https://webapi.amap.com/maps?v=1.4.15&key=d67b45d503ac4dac45d41b907bc974db"
+      src="https://webapi.amap.com/maps?v=1.4.15&key=da06fea2dc3561e40e303fd48e522ac9"
     ></script>
   </div>
 </template>
@@ -95,10 +95,8 @@ export default {
     //触发地图的点
     choose(data){
        let temp = data.location.split(",");
-      // console.log(temp);
         temp = [temp[0]-0,temp[1]-0]
         this.content = data.name
-        // console.log(this.infoWindow,'-------------')
          this.infoWindow = new AMap.InfoWindow({
           offset: new AMap.Pixel(-5, -50),
           content: this.content //传入 dom 对象，或者 html 字符串
@@ -124,19 +122,15 @@ export default {
       });
     },
     setMapInfo() {
-      console.log(this.sceneryMapdata);
       const {location} = this.sceneryMapdata[3]
       //重新设置地图中心点
-      // console.log(location);
       const temp = location.split(",");
-      // console.log(temp);
       this.center = [temp[0]-0,temp[1]-0]
       this.map = new AMap.Map("detailMap", {
         zoom: 14, //级别
         center: this.center, //中心点坐标
         viewMode: "3D" //使用3D视图
       });
-      // console.log(this.MapData);
       this.sceneryMapdata.forEach(v => {
         //生成多个坐标点
         let str = v.location.split(",");
@@ -155,10 +149,10 @@ export default {
         output:'json',
         page:1,
         offset:10,
-        key:'d67b45d503ac4dac45d41b907bc974db'
+        key:'da06fea2dc3561e40e303fd48e522ac9'
+        // key:'79041dfa1c752f49599e2b507c64da42'
       }
     }).then(res=>{
-      console.log(res);
       this.sceneryMapdata = res.data.pois
     })
     }

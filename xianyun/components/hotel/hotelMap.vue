@@ -33,6 +33,7 @@ export default {
   methods: {
     //添加点标记
     setMarker(markers, position, data) {
+      // console.log(data);
       this.markers = new AMap.Marker({
         content: `<div style="width:20px;height:28px;text-align:center;" class="el-icon-location"></div>`,
         position: position,
@@ -40,7 +41,10 @@ export default {
         map: this.map //把点标记绑在前面初始化的 map_ 上，否则不显示
       });
       this.markers.on("mousemove", () => {
-        this.content = data.name;
+        this.content =  
+    `<div><img src="${data.photos}" style="width:100px; height:50px;margin:0 auto"> 
+    <div><b style="color:#666">${data.name}</b>`
+;
         this.infoWindow = new AMap.InfoWindow({
           offset: new AMap.Pixel(-5, -50),
           content: this.content //传入 dom 对象，或者 html 字符串
@@ -61,7 +65,6 @@ export default {
         center: this.center, //中心点坐标
         viewMode: "3D" //使用3D视图
       });
-      // console.log(this.MapData);
       this.MapData.forEach(v => {
         //生成多个坐标点
         this.setMarker(v.area, [v.location.longitude, v.location.latitude], v);

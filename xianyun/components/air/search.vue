@@ -126,7 +126,6 @@ export default {
        
         // 出发城市下拉选择时触发
         handleDepartSelect(item) {
-            console.log(item);
             this.form.departCity = item.value;
             this.form.departCode = item.sort;
         },
@@ -139,7 +138,6 @@ export default {
 
         // 确认选择日期时触发
         handleDate(value){
-           console.log(value);
            //时间的解析
            this.form.departDate = mement(value).format('YYYY-MM-DD')
         },
@@ -188,7 +186,6 @@ export default {
           // 提交表单时存储数据到本地
          let arr = JSON.parse(localStorage.getItem('air') || `[]`)
          arr.unshift(this.form)
-         console.log(arr);
          localStorage.setItem('air',JSON.stringify(arr));
         }
     },

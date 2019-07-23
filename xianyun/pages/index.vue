@@ -95,7 +95,6 @@ export default {
     },
     //跳转到
     skip(){
-     console.log( this.options[this.currentOption].pageUrl);
      if(this.searchValue !== ''){
        this.$router.push(this.options[this.currentOption].pageUrl+this.searchValue)
      }else{
