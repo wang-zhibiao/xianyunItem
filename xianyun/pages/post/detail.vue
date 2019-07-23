@@ -28,9 +28,9 @@
             <i class="iconfont iconfenxiang"></i>
             <p>分享</p>
           </div>
-          <div class="ctrl-item">
+          <div class="ctrl-item" @click="handleDianZan(dataList.id)">
             <i class="iconfont iconding"></i>
-            <p @click="handleDianZan(dataList.account.id)">点赞({{dataList.like}})</p>
+            <p >点赞({{dataList.like}})</p>
           </div>
         </el-row>
       </div>
@@ -203,6 +203,8 @@ export default {
       return this.$moment(created_at).format("YYYY-MM-DD HH:mm");
     },
     handleDianZan(id) {
+      console.log(id);
+      
       // 点赞功能
       this.$axios({
         baseURL: "http://157.122.54.189:9095",
@@ -217,6 +219,7 @@ export default {
             type: "success",
             message: "点赞成功"
           });
+          this.getList()
         }
       });
     },
