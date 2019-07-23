@@ -42,7 +42,7 @@ export default {
         })
         .then((res) => {
             this.dataList = res.data.data[0]
-            console.log(this.dataList)
+            console.log(res)
         })
     },
 }

@@ -144,13 +144,12 @@ export default {
           hotellevel:this.changeData
         }
       }).then(res => {
-        // console.log(res);
+        
         this.HotelList = res.data.data;
         this.rantList = [...res.data.data];
         this.location = res.data.data;
         this.total = res.data.total
         this.backCity = res.data.data[0].city.name
-        // console.log(this.backCity);s
       });
     }
   }
