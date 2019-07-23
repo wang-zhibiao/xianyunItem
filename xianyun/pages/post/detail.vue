@@ -9,7 +9,7 @@
       </el-breadcrumb>
       <h1>{{dataList.title}}</h1>
       <div class="post-info">
-        <span>攻略：{{dataList.city.created_at}}</span>
+        <span>攻略：{{$moment(dataList.created_at).format("YYYY-MM-DD HH:mm:ss")}}</span>
         <span>阅读：{{dataList.watch}}</span>
       </div>
       <!-- 内容展示部分 -->
