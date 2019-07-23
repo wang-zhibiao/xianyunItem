@@ -120,7 +120,7 @@
     <el-row class="right">
       <h4>相关攻略</h4>
       <div class="recommend-list" v-for="(value,index) in tuiJianData" :key="index">
-        <nuxt-link to="#" @click="handledetal(value.id)">
+        <nuxt-link :to="`/post/detail?id=${value.id}`">
           <el-row type="flex">
             <el-row class="post-img" type="flex" align="middle">
               <img :src="value.images[0]" />
