@@ -86,6 +86,11 @@ export default {
   methods: {
     // 改变当前页
     currrnt(index){
+      // 如果点击的是机票，则跳转到国内机票页
+      if(index === 2) {
+        this.$router.push('/air')
+        return
+      }
       this.currentOption = index
     },
     //跳转到

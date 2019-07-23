@@ -1,53 +1,19 @@
 <template>
-  <div class="detailMap clearfix">
-    <div class="clearx">
-      <div id="container" style="width:650px; height: 360px;"></div>
-      <div class="mapSidt">
-        <div class="navDiv">
+  <div class="detailMap">
+    <el-row>
+      <el-col :span="14" id="detailMap"></el-col>
+      <el-col :span="8" >
+         <div class="navDiv">
           <el-tabs v-model="activeName">
             <el-tab-pane label="风景" name="first">
               <div class="traffic">
                 <ul>
-                  <li>
-                    <span>南京长江大桥</span>
-                    <span>2.42公里</span>
+                  <li v-for="(item,index) in sceneryMapdata" :key="index" style="cursor:pointer;"
+                   @mousemove="choose(item)">
+                    <span>{{item.name}}</span>
+                    <span>{{item.biz_ext.rating}}公里</span>
                   </li>
-                  <li>
-                    <span>浦口公园</span>
-                    <span>3.01公里</span>
-                  </li>
-                  <li>
-                    <span>五塘广场</span>
-                    <span>4.64公里</span>
-                  </li>
-                  <li>
-                    <span>基督教桥北点</span>
-                    <span>0.63公里</span>
-                  </li>
-                  <li>
-                    <span>总统府</span>
-                    <span>11.06公里</span>
-                  </li>
-                  <li>
-                    <span>桥北滨江生态公园</span>
-                    <span>1.52公里</span>
-                  </li>
-                  <li>
-                    <span>阅江楼景区</span>
-                    <span>3.90公里</span>
-                  </li>
-                  <li>
-                    <span>夫子庙</span>
-                    <span>12.96公里</span>
-                  </li>
-                  <li>
-                    <span>古林公园</span>
-                    <span>6.97公里</span>
-                  </li>
-                  <li>
-                    <span>夫珍珠泉旅游度假区</span>
-                    <span>5.56公里</span>
-                  </li>
+                 
                 </ul>
               </div>
             </el-tab-pane>
@@ -99,175 +65,131 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
+     <script
+      type="text/javascript"
+      src="https://webapi.amap.com/maps?v=1.4.15&key=d67b45d503ac4dac45d41b907bc974db"
+    ></script>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      activeName: "first"
+      //地图的标签
+      activeName:"first",
+      // 地图的数据
+      sceneryMapdata:null,
+       //地图加载时间
+      loading:true,
+      //地图窗体信息
+      content: "高级酒店",
+      map: null,
+      markers: null,
+      infoWindow: null,
+      center: [118.796623, 32.059352]
     };
   },
   methods: {
-    // changeMap() {
-    //   console.log(123)
-    //    window.onLoad = function() {
-    //     var map = new AMap.Map("container", {
-    //     zoom: 13,
-    //     center: [118.727567,32.134053],
-    //     viewMode: "3D"
-    //   });
-    //   var marker1 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.727567,32.134053),
-    //     title: "南京市"
-    //   });
-    //   var marker2 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.742089,32.131673),
-    //     title: "南京市"
-    //   });
-    //   var marker3 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.730225,32.130058),
-    //     title: "南京市"
-    //   });
-    //   var marker4 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.730805,32.13136),
-    //     title: "南京市"
-    //   });
-    //   var marker5 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.731491,32.128178),
-    //     title: "南京市"
-    //   });
-    //   var marker6 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.733887,32.127632),
-    //     title: "南京市"
-    //   });
-    //   var marker7 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.730995,32.125832),
-    //     title: "南京市"
-    //   });
-    //   var marker8 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.731895,32.123753),
-    //     title: "南京市"
-    //   });
-    //   var marker9 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.718323,32.11877),
-    //     title: "南京市"
-    //   });
-    //   var marker10 = new AMap.Marker({
-    //     position: new AMap.LngLat(118.7311,32.126738),
-    //     title: "南京市"
-    //   });
-    //   map.add([marker1, marker2,marker3,marker4,marker5,marker6,marker7,marker8,marker9,marker10]);
-    // };
-    // }
+    //触发地图的点
+    choose(data){
+       let temp = data.location.split(",");
+      // console.log(temp);
+        temp = [temp[0]-0,temp[1]-0]
+        this.content = data.name
+        // console.log(this.infoWindow,'-------------')
+         this.infoWindow = new AMap.InfoWindow({
+          offset: new AMap.Pixel(-5, -50),
+          content: this.content //传入 dom 对象，或者 html 字符串
+        });
+       this.infoWindow.open(this.map, temp);
+    
+    },
+    //添加点标记
+    setMarker(markers, position, data) {
+      this.markers = new AMap.Marker({
+        content: `<div style="width:20px;height:28px;text-align:center;" class="el-icon-location"></div>`,
+        position: position,
+        offset: new AMap.Pixel(-17, -42), // 相对于基点的偏移位置
+        map: this.map //把点标记绑在前面初始化的 map_ 上，否则不显示
+      });
+       AMap.event.addListener(this.markers,"mousemove", ()=>{
+        this.content = data.name;
+        this.infoWindow = new AMap.InfoWindow({
+          offset: new AMap.Pixel(-5, -50),
+          content: this.content //传入 dom 对象，或者 html 字符串
+        });
+        this.infoWindow.open(this.map, position);
+      });
+    },
+    setMapInfo() {
+      console.log(this.sceneryMapdata);
+      const {location} = this.sceneryMapdata[3]
+      //重新设置地图中心点
+      // console.log(location);
+      const temp = location.split(",");
+      // console.log(temp);
+      this.center = [temp[0]-0,temp[1]-0]
+      this.map = new AMap.Map("detailMap", {
+        zoom: 14, //级别
+        center: this.center, //中心点坐标
+        viewMode: "3D" //使用3D视图
+      });
+      // console.log(this.MapData);
+      this.sceneryMapdata.forEach(v => {
+        //生成多个坐标点
+        let str = v.location.split(",");
+        this.setMarker(v.name, [str[0]-0,str[1]-0], v);
+      });
+    },
+    //请求数据
+    getMapdata(){
+      this.$axios({
+      url:`https://restapi.amap.com/v3/place/text`,
+      params:{
+        keyword:'',
+        location:"118.732841,32.077242",
+        city:"南京市",
+        types:"风景名胜",
+        output:'json',
+        page:1,
+        offset:10,
+        key:'79041dfa1c752f49599e2b507c64da42'
+      }
+    }).then(res=>{
+      console.log(res);
+      this.sceneryMapdata = res.data.pois
+    })
+    }
   },
   mounted() {
-    window.onLoad = function() {
-      var map = new AMap.Map("container", {
-        zoom: 10,
-        center: [118.744305, 32.113205],
-        viewMode: "3D"
-      });
-
-      var marker1 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >1</div>`,
-        position: new AMap.LngLat(118.744305, 32.113205),
-        title: "南京市"
-      });
-      var marker2 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >2</div>`,
-        position: new AMap.LngLat(118.719705, 32.102135),
-        title: "南京市"
-      });
-      var marker3 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >3</div>`,
-        position: new AMap.LngLat(118.777542, 32.110191),
-        title: "南京市"
-      });
-      var marker4 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >4</div>`,
-        position: new AMap.LngLat(118.747858, 32.094408),
-        title: "南京市"
-      });
-      var marker5 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >5</div>`,
-        position: new AMap.LngLat(118.797403, 32.044221),
-        title: "南京市"
-      });
-      var marker6 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >6</div>`,
-        position: new AMap.LngLat(118.788803, 32.020734),
-        title: "南京市"
-      });
-      var marker7 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >7</div>`,
-        position: new AMap.LngLat(118.753409, 32.066873),
-        title: "南京市"
-      });
-      var marker8 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >8</div>`,
-        position: new AMap.LngLat(118.663018, 32.124457),
-        title: "南京市"
-      });
-      var marker9 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >9</div>`,
-        position: new AMap.LngLat(118.734252, 32.113368),
-        title: "南京市"
-      });
-      var marker10 = new AMap.Marker({
-        content: `<div style="text-align:center;" class="ico-marker" >10</div>`,
-        position: new AMap.LngLat(118.731988, 32.121259),
-        title: "南京市"
-      });
-
-      map.add([
-        marker1,
-        marker2,
-        marker3,
-        marker4,
-        marker5,
-        marker6,
-        marker7,
-        marker8,
-        marker9,
-        marker10
-      ]);
-    };
-    var key = "6f77904e52b38763ef2be9550d25b73e";
-    var url = `https://webapi.amap.com/maps?v=1.4.15&key=${key}&callback=onLoad`;
-
-    var jsapi = document.createElement("script");
-    jsapi.charset = "utf-8";
-    jsapi.src = url;
-    document.head.appendChild(jsapi);
+     setTimeout(() => {
+      this.setMapInfo();
+    }, 3000);
+    //请求数据
+    this.getMapdata()
   }
 };
 </script>
 <style lang="less" scoped>
-.clearfix::after {
-  content: "";
-  display: block;
-  clear: both;
+.navDiv{
+  padding-left: 20px;
 }
-.detailMap {
-  width: 1000px;
-  .clearx {
-    float: left;
-    position: relative;
+#detailMap {
+  width: 650px;
+  height: 360px;
+  /deep/.el-icon-location {
+    color: #00a4ff;
+    &::before {
+      display: block;
+      color: #ff3366;
+      transform: scale(3);
+    }
   }
-  .container {
-  }
-  .mapSidt {
-    position: absolute;
-    top: 0;
-    left: 670px;
-    width: 330px;
-    height: 360px;
-  }
+}
 
-  .traffic {
+.traffic {
     overflow-y: auto;
     height: 300px;
     ul {
@@ -283,18 +205,4 @@ export default {
       }
     }
   }
- 
-  /deep/.ico-marker {
-    display: block;
-      width: 19px;
-      height: 33px;
-    background: url('https://webapi.amap.com/theme/v1.3/markers/b/mark_bs.png') no-repeat;
-    background-size: contain;
-     &::before {
-      
-      color: #ff3366;
-      transform: scale(2);
-    }
-  }
-}
 </style>

@@ -119,7 +119,12 @@
     <!-- 右边部分 -->
     <el-row class="right">
       <h4>相关攻略</h4>
-      <div class="recommend-list" v-for="(value,index) in tuiJianData" :key="index">
+      <div
+        class="recommend-list"
+        v-for="(value,index) in tuiJianData"
+        :key="index"
+        @click="updateList(value)"
+      >
         <nuxt-link :to="`/post/detail?id=${value.id}`">
           <el-row type="flex">
             <el-row class="post-img" type="flex" align="middle">
@@ -127,7 +132,7 @@
             </el-row>
             <div class="post-text">
               <div>{{value.title}}</div>
-              <span>{{changeTime(value.created_at)}} 阅读{{value.watch}}</span>
+              <span>{{$moment(value.updated_at).format('YYYY-MM-DD')}} 阅读{{value.watch}}</span>
             </div>
           </el-row>
         </nuxt-link>
@@ -148,8 +153,8 @@ export default {
       nickname: "",
       dataList: {
         account: {},
-        city: {}
-        // id: "" //文章ID
+        city: {},
+        id: "" //文章ID
       },
       textarea: "",
       tuiJianData: [],
@@ -163,18 +168,23 @@ export default {
     };
   },
   methods: {
-    handledetal(id){
+    // 封装获取文章详情的方法
+    getList() {
       this.$axios({
-      baseURL: "http://157.122.54.189:9095",
-      url: "/posts",
-      params: {id}
-    }).then(res => {
-      // console.log(res);
-      if (res.status === 200) {
-        const [data] = res.data.data;
-        this.dataList = data;
-      }
-    });
+        baseURL: "http://157.122.54.189:9095",
+        url: "/posts",
+        params: this.$route.query
+      }).then(res => {
+        if (res.status === 200) {
+          const [data] = res.data.data;
+          this.dataList = data;
+        }
+      });
+    },
+    // 右边点击方法
+    updateList(val) {
+      this.getList()
+      this.init()
     },
     changeTime(created_at) {
       return this.$moment(created_at).format("YYYY-MM-DD HH:mm");
@@ -189,7 +199,6 @@ export default {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         }
       }).then(res => {
-        // console.log(res);
         if (res.status === 200) {
           this.$message({
             type: "success",
@@ -203,7 +212,6 @@ export default {
     },
     // 回复
     handleDiGui(value) {
-      console.log(value);
       this.dufaem = true;
       this.nickname = value.account.nickname;
     },
@@ -213,16 +221,14 @@ export default {
         baseURL: "http://157.122.54.189:9095",
         url: "/posts/comments",
         params: {
-          post: this.dataList.id,
+          post: this.$route.query.id,
           _limit: this.limit,
           _start: this.start
         }
       }).then(res => {
-        console.log(res);
         if (res.status === 200) {
           this.total = res.data.total;
           this.pinLunData = res.data.data;
-          console.log(this.pinLunData);
         }
       });
     },
@@ -241,7 +247,6 @@ export default {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         }
       }).then(res => {
-        // console.log(res);
         if (res.status === 200) {
           this.$message({
             type: "success",
@@ -268,7 +273,6 @@ export default {
     handleSuccess(response) {
       if (!response.length === 0) return;
       this.pics.push(response[0]);
-      // console.log(response);
     },
 
     // 删除图片的勾子
@@ -276,7 +280,6 @@ export default {
       if (!file.response[0]) {
         return;
       }
-      // console.log(file);
       this.pics.forEach((e, i) => {
         if (e.id === file.response[0].id) {
           this.pics.splice(i, 1);
@@ -299,29 +302,17 @@ export default {
     this.$axios({
       baseURL: "http://157.122.54.189:9095",
       url: "/posts/recommend",
-      params: { id: this.dataList.id }
+      params: { id: this.$route.query.id }
     }).then(res => {
-      console.log(res);
       if (res.status === 200) {
         this.tuiJianData = res.data.data;
       }
     });
 
+    // 获取文章详情
+    this.getList()
     // 获取所有评论
     this.init();
-
-    // 获取文章详情
-    this.$axios({
-      baseURL: "http://157.122.54.189:9095",
-      url: "/posts",
-      params: this.$route.query
-    }).then(res => {
-      // console.log(res);
-      if (res.status === 200) {
-        const [data] = res.data.data;
-        this.dataList = data;
-      }
-    });
   }
 };
 </script>
