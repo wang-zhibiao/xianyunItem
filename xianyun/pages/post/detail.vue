@@ -69,9 +69,8 @@
           </div>
         </el-row>
         <!-- 递归评论展示部分 -->
-
-        <div class="cmt-list" v-for="(item,index) in pinLunData" :key="index">
-          <div class="cmt-item">
+        <div class="cmt-list">
+          <div class="cmt-item" v-for="(item,index) in pinLunData" :key="index">
             <div class="cmt-info">
               <img :src="'http://157.122.54.189:9095' + item.account.defaultAvatar" />
               <em style="font-style:normal">{{item.account.nickname}}</em>
@@ -79,14 +78,26 @@
               <span>{{item.level}}</span>
             </div>
             <div class="cmt-content">
-              <p class="cmt-message">{{item.content}}</p>
-              <el-row type="flex">
-                <div class="cmt-pic" v-if="item.pics.length>0">
-                  <img :src="'http://157.122.54.189:9095' + item.pics[0].url " />
+              <DetailCmt
+                :data="item.parent"
+                v-if="item.parent!==undefined"
+                style="padding: 10px;border: 1px dashed #ccc"
+              />
+              <div class="cmt-new">
+                <p class="cmt-message">{{item.content}}</p>
+                <el-row type="flex">
+                  <div
+                    class="cmt-pic"
+                    v-for="(value,index) in item.pics"
+                    :key="index"
+                    v-show="item.pics.length>0"
+                  >
+                    <img :src="'http://157.122.54.189:9095' + value.url " />
+                  </div>
+                </el-row>
+                <div class="cmt-ctrl">
+                  <a href="javascript:;" @click="handleDiGui(item)">回复</a>
                 </div>
-              </el-row>
-              <div class="cmt-ctrl">
-                <a href="javascript:;" @click="handleDiGui(item)">回复</a>
               </div>
             </div>
           </div>
@@ -109,14 +120,14 @@
     <el-row class="right">
       <h4>相关攻略</h4>
       <div class="recommend-list" v-for="(value,index) in tuiJianData" :key="index">
-        <nuxt-link to="#">
+        <nuxt-link to="#" @click="handledetal(value.id)">
           <el-row type="flex">
             <el-row class="post-img" type="flex" align="middle">
               <img :src="value.images[0]" />
             </el-row>
             <div class="post-text">
               <div>{{value.title}}</div>
-              <span>2019-7-18 阅读{{value.watch}}</span>
+              <span>{{changeTime(value.created_at)}} 阅读{{value.watch}}</span>
             </div>
           </el-row>
         </nuxt-link>
@@ -152,6 +163,19 @@ export default {
     };
   },
   methods: {
+    handledetal(id){
+      this.$axios({
+      baseURL: "http://157.122.54.189:9095",
+      url: "/posts",
+      params: {id}
+    }).then(res => {
+      // console.log(res);
+      if (res.status === 200) {
+        const [data] = res.data.data;
+        this.dataList = data;
+      }
+    });
+    },
     changeTime(created_at) {
       return this.$moment(created_at).format("YYYY-MM-DD HH:mm");
     },
@@ -277,7 +301,7 @@ export default {
       url: "/posts/recommend",
       params: { id: this.dataList.id }
     }).then(res => {
-      // console.log(res);
+      console.log(res);
       if (res.status === 200) {
         this.tuiJianData = res.data.data;
       }
