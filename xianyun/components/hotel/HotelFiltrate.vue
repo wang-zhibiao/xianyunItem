@@ -107,7 +107,6 @@ export default {
     },
     // 选择城市时触发
     handleSelect(item){
-      // console.log(item);
       this.form.hotelCity = item.name
       this.form.id = item.id
     },

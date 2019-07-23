@@ -76,7 +76,6 @@ export default {
         }
     },
     mounted () {
-        // console.log(this.name);
          this.getCityStrategy()
     },
     watch: {
@@ -98,9 +97,7 @@ export default {
                     name:this.name
                 }
             }).then(res=>{
-                // console.log(res);
                 this.strategy = res.data.data[0].scenics
-                // console.log(this.strategy);
             })
            },2000)
         }

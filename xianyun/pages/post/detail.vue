@@ -173,10 +173,8 @@ export default {
   methods: {
     // 接收子组件的方法
     handleJieShou(obj){
-      console.log(111);
       this.nickname = obj.account.nickname
       this.dufaem = true
-      console.log(this.dufaem);
       
       this.childrenList = {...obj}
     },
@@ -203,8 +201,6 @@ export default {
       return this.$moment(created_at).format("YYYY-MM-DD HH:mm");
     },
     handleDianZan(id) {
-      console.log(id);
-      
       // 点赞功能
       this.$axios({
         baseURL: "http://157.122.54.189:9095",
@@ -228,8 +224,6 @@ export default {
     },
     // 回复
     handleDiGui(value) {
-      console.log(value);
-      
       this.huifuId = value.id
       this.dufaem = true;
       this.nickname = value.account.nickname;
@@ -253,8 +247,6 @@ export default {
     },
     // 提交评论
     handlePinLun() {
-      console.log(this.childrenList);
-      
       this.$axios({
         baseURL: "http://157.122.54.189:9095",
         url: "/comments",

@@ -104,7 +104,6 @@ export default {
         url: "/airs",
         params: this.$route.query
       }).then(res => {
-        console.log(res);
         this.flightsData.total = res.data.total;
         this.ListData = res.data.flights;
         this.FiltersData = res.data;
@@ -116,12 +115,10 @@ export default {
     //页面数量
     handleSizeChange(value){
         this.flightsData.pageSize = value;
-        // console.log(this.flightsData.pageSize);
         //  this.getNewListData()
     },
     //当前页
     handleCurrentChange(value){
-        // console.log(value);
          this.flightsData.pageIndex = value;
         // this.getNewListData()
     },

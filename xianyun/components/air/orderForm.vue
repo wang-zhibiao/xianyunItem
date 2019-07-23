@@ -105,7 +105,6 @@ export default {
               seat_xid: query.xid
           }
       }).then(res=>{
-        //   console.log(res);
           this.infoData = res.data;
           this.$store.commit("air/setAsideData",this.infoData)
       }) 
@@ -119,13 +118,10 @@ export default {
       price+=this.insurances.length*30;
       price+=this.infoData.airport_tax_audlet;
       price*=this.user.length
-      console.log(this.infoData);
-      console.log(price);
       this.$store.commit('air/setAllPrice',price)
     },
     // 保险数据
     chooseInsurance(item) {
-      // console.log(item);
       const index = this.insurances.indexOf(item.id);
       if (index > -1) {
         // 如果有保险就添加数据
@@ -133,7 +129,6 @@ export default {
       } else {
         this.insurances.push(item.id);
       }
-      // console.log(this.insurances);
       this.insurance = this.insurances;
     },
     // 添加乘机人
@@ -221,7 +216,6 @@ export default {
     //       }
     //   })
       const token = this.$store.state.user.userInfo.token;
-      // console.log(token);
 
       
       this.$axios({
@@ -236,7 +230,6 @@ export default {
         message: "正在生成订单！请稍等",
         type: "success"
       });
-        // console.log(res);
         setTimeout(()=>{
           const {message,data} = res.data
             this.$message.success(message);

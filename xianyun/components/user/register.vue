@@ -114,7 +114,6 @@ export default {
         method: "POST",
         data: { tel: this.form.username }
       }).then(res => {
-        console.log(res);
         this.$confirm(`验证码是:${res.data.code}`, "验证码", {
           confirmButtonText: "确定",
           showCancelButton: false,
@@ -125,7 +124,6 @@ export default {
 
     // 注册
     handleRegSubmit() {
-      console.log(this.form);
       this.$refs.form.validate(valid => {
         if (valid) {
           var { checkPassword, ...props } = this.form;
@@ -134,7 +132,6 @@ export default {
             method: "POST",
             data: props
           }).then(res => {
-            console.log(res);
             this.$message({
                 type:'success',
                 message:'注册成功'
