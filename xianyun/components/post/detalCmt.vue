@@ -20,6 +20,7 @@
       </div>
     </div>
     <div>
+      <!-- @子传父      v-if判断data.parent没有下一级就不创建 -->
       <Item :data="data.parent" v-if="data.parent" @handleJieShou="handleChuanZhi"/>
     </div>
   </div>
