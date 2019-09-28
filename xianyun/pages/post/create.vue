@@ -37,7 +37,7 @@
           <!-- 点击发布 -->
           <button type="button" class="button" @click="fabu">发布</button>
           <span class="span">
-            或者
+            <span>或者</span>
             <!-- 点击存入草稿箱 -->
             <a href="javascript:;" @click="dianji">保存到草稿</a>
           </span>
@@ -141,7 +141,7 @@ export default {
       if (this.listConner.length > 5) {
         this.listConner.length = 5;
       }
-    }, 1);
+    }, 1000);
   },
   methods: {
      // 搜索游玩城市输入框获得焦点时触发
