@@ -59,7 +59,7 @@ export default {
       //缓存列表数据
       rantList:[],
       //返回的城市数据
-      changeData:4,
+      changeData:5,
       backCity:{},
       hotel: {
         id: 1,
@@ -108,9 +108,7 @@ export default {
     if(classify<10){
       this.changeData= classify
       this.getHotelList()
-      console.log(this.HotelList);
     }else{
-      console.log(classify);
       const arr = this.rantList.filter(v=>{
          return v.price <= classify
       })
@@ -144,13 +142,11 @@ export default {
           hotellevel:this.changeData
         }
       }).then(res => {
-        // console.log(res);
         this.HotelList = res.data.data;
         this.rantList = [...res.data.data];
         this.location = res.data.data;
         this.total = res.data.total
         this.backCity = res.data.data[0].city.name
-        // console.log(this.backCity);s
       });
     }
   }

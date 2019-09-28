@@ -103,25 +103,21 @@ export default {
     },
     //改变星级时触发
     changeLevels(val){
-      // console.log(val);
       this.classify.changeLevels = val
       this.$emit('changeDatalist',this.classify.changeLevels)
     },
     //改变住宿类型时触发
     changeTypes(val){
-      // console.log(val);
       this.classify.changeTypes = val
       this.$emit('changeDatalist',this.classify.changeTypes)
     },
     //改变酒店设施时触发
     changeAssets(val){
-      // console.log(val);
       this.classify.changeAssets = val
       this.$emit('changeDatalist',this.classify.changeTypes)
     },
     //改变酒店品牌时触发
     changeBrands(val){
-      // console.log(val);
       this.classify.changeBrands = val
       this.$emit('changeDatalist',this.classify.changeTypes)
     },
@@ -132,7 +128,6 @@ export default {
     }).then(res => {
       const {data} = res.data;
       this.Hotel = data;
-      console.log(this.Hotel);
     });
   },
 };

@@ -20,9 +20,9 @@
     </el-row>
 
     <el-row>
-      <el-col :span="24" class="firstSpan">
-        <span>停车服务</span>
-        <span>-</span>
+      <el-col :span="24" class="carSpan">
+        <span class="news">停车服务</span>
+        <span class="servCard">{{data.parking ? data.parking : '-'}}</span>
       </el-col>
     </el-row>
 
@@ -45,40 +45,53 @@ export default {
 };
 </script>
 <style lang="less" scoped>
- .detailNews{
-     margin-top: 30px;
-     widows: 1000px;
-    .hotelServe{      
-        padding: 20px 10px;
-        border-bottom: 1px solid #ccc;
-        .hotelLast{
-            display: inline-block;
-            width: 16%;
-            font-size: 14px;
-            color: #000;
-        }
-        .serveice{
-           padding:4px 10px;
-           background-color: #eee;
-           margin-right: 10px;
-           font-size: 14px;
-           color:#666;
-
-        } 
+.detailNews {
+  margin-top: 30px;
+  widows: 1000px;
+  .carSpan {
+    padding: 20px 10px;
+    border-bottom: 1px solid #ccc;
+    .news {
+      display: inline-block;
+      width: 16%;
+      font-size: 14px;
+      color: #000;
     }
-    .firstSpan{
-        padding: 20px 10px;
-        border-bottom: 1px solid #ccc;
-        span{
-           display: inline-block;
-           width: 20%;
-           color: #666;
-           font-size: 14px;
-        }
-        span:first-child{
-            width:16%;
-            color: #000;
-        }
+    .servCard {
+      font-size: 14px;
+      color: #666;
     }
- }
+  }
+  .hotelServe {
+    padding: 20px 10px;
+    border-bottom: 1px solid #ccc;
+    .hotelLast {
+      display: inline-block;
+      width: 16%;
+      font-size: 14px;
+      color: #000;
+    }
+    .serveice {
+      padding: 4px 10px;
+      background-color: #eee;
+      margin-right: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+  }
+  .firstSpan {
+    padding: 20px 10px;
+    border-bottom: 1px solid #ccc;
+    span {
+      display: inline-block;
+      width: 20%;
+      color: #666;
+      font-size: 14px;
+    }
+    span:first-child {
+      width: 16%;
+      color: #000;
+    }
+  }
+}
 </style>
